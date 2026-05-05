@@ -42,3 +42,29 @@ SHA-256 via `{{ include ... | sha256sum }}`).
 ### Prerequisites
 
 - 1Password 8 with the SSH agent enabled (Settings → Developer → "Use the SSH agent").
+
+## chezmoi conventions used here
+
+Chezmoi encodes behavior in filename prefixes. The ones that show up in this
+repo:
+
+- **`private_`** on a directory or file means the target should have
+  restrictive permissions (`0700` for dirs, `0600` for files). We use
+  `private_Library/` because macOS keeps `~/Library` at `0700` by default —
+  without the prefix chezmoi would try to relax it to `0755`.
+
+- **`run_onchange_<name>.sh.tmpl`** is a script chezmoi *executes* during
+  `apply`, instead of installing it into `$HOME`. The `onchange_` variant
+  reruns the script only when its rendered content changes (alternatives:
+  `run_once_` for one-shot, plain `run_` for every apply).
+
+- **`.tmpl`** marks a file as a Go template processed by chezmoi before being
+  written or executed. We use it on the reload script to embed the plist's
+  hash via `{{ include "..." | sha256sum }}`. That hash is what makes
+  `onchange_` notice when the plist changes and re-run the reload — without
+  it the script would never re-execute, since its own source never changes.
+
+Other conventions you'll likely meet as the repo grows: `dot_zshrc` →
+`~/.zshrc`, `private_dot_ssh/config` → `~/.ssh/config` with `0700` perms,
+`encrypted_<name>` for files encrypted with `age`/`gpg`. Full reference:
+<https://www.chezmoi.io/reference/source-state-attributes/>.
