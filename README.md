@@ -6,9 +6,13 @@ Personal macOS dotfiles, managed with [chezmoi](https://www.chezmoi.io/).
 
 ```sh
 brew install chezmoi
-chezmoi init <this-repo-url>
-chezmoi diff      # review what will change
-chezmoi apply
+chezmoi init --apply https://github.com/ilmeskio/dotfiles.git
+```
+
+To sync later changes from the repo:
+
+```sh
+chezmoi update    # pull + apply
 ```
 
 ## What's inside
