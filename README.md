@@ -4,17 +4,20 @@ Personal macOS dotfiles, managed with [chezmoi](https://www.chezmoi.io/).
 
 ## Bootstrap on a new machine
 
+After the [prerequisites](#prerequisites) below are in place, one command:
+
 ```sh
-brew install chezmoi
-chezmoi init --apply https://github.com/ilmeskio/dotfiles.git
+sh -c "$(curl -fsLS get.chezmoi.io/lb)" -- init --apply ilmeskio
 ```
 
-`chezmoi apply` will, in order:
+This downloads chezmoi to `~/.local/bin/chezmoi` and runs `init --apply`
+against this repo. `chezmoi apply` then, in order:
 
-1. Run `brew bundle` against the [Brewfile](#homebrew-packages) (installs CLI
-   tools and casks, including `fnm`, `1password`, `visual-studio-code`, etc).
-2. Bootstrap oh-my-zsh and clone the [external plugins](#oh-my-zsh--external-plugins).
-3. Install the managed dotfiles (`.zshrc`, `.gitconfig`, `.ssh/config`,
+1. Runs `brew bundle` against the [Brewfile](#homebrew-packages) (installs
+   CLI tools and casks — including `chezmoi` itself, so future updates go
+   through brew rather than the bootstrap binary).
+2. Bootstraps oh-my-zsh and clones the [external plugins](#shell---zshrc-oh-my-zsh--external-plugins).
+3. Installs the managed dotfiles (`.zshrc`, `.gitconfig`, `.ssh/config`,
    VS Code config, the 1Password LaunchAgent, …).
 
 To sync later changes from the repo:
@@ -22,6 +25,8 @@ To sync later changes from the repo:
 ```sh
 chezmoi update    # pull + apply
 ```
+
+To upgrade chezmoi itself: `brew upgrade chezmoi`.
 
 ## Prerequisites
 

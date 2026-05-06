@@ -5,6 +5,7 @@ tap "hashicorp/tap"
 tap "oven-sh/bun"
 
 # === Core CLI ===
+brew "chezmoi"                # this very repo's apply tool — managed by brew so it stays updated
 brew "git"
 brew "gh"
 brew "zsh"
