@@ -1,0 +1,86 @@
+{
+    "editor.formatOnSave": true,
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[json]": {
+        "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[css]": {
+        "editor.defaultFormatter": "biomejs.biome"
+    },
+    "files.associations": {
+        "*.css": "css",
+        "*.staging": "shellscript",
+        "secrets-common": "shellscript"
+    },
+    "gitlens.showWelcomeOnInstall": false,
+    "gitlens.codeLens.scopes": [
+        "document",
+        "containers",
+        "blocks"
+    ],
+    "[html]": {
+        "editor.defaultFormatter": "vscode.html-language-features"
+    },
+    "[jsonc]": {
+        "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[markdown]": {
+        "editor.defaultFormatter": "yzhang.markdown-all-in-one"
+    },
+    "html.format.indentHandlebars": true,
+    "html.format.wrapLineLength": 80,
+    "editor.detectIndentation": false,
+    "intelephense.environment.phpVersion": "7.0",
+    "database-client.autoSync": true,
+    "emmet.showSuggestionsAsSnippets": true,
+    "emmet.excludeLanguages": [
+        "markdown",
+        "php"
+    ],
+    "git.confirmSync": false,
+    "git.blame.editorDecoration.enabled": true,
+    "window.autoDetectColorScheme": true,
+    "workbench.editor.alwaysShowEditorActions": true,
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "typescript.preferGoToSourceDefinition": true,
+    "typescript.preferences.preferTypeOnlyAutoImports": true,
+    "biome.suggestInstallingGlobally": false,
+    "continue.enableTabAutocomplete": true,
+    "css.format.enable": false,
+    "github.copilot.enable": {
+        "*": false,
+        "plaintext": false,
+        "markdown": false,
+        "scminput": false
+    },
+    "continue.enableConsole": true,
+    "continue.enableQuickActions": true,
+    "containers.containerClient": "com.microsoft.visualstudio.containers.docker",
+    "containers.orchestratorClient": "com.microsoft.visualstudio.orchestrators.dockercompose",
+    "claudeCode.preferredLocation": "panel",
+    "diffEditor.maxComputationTime": 0,
+    "slidev.dev-command": "pnpm slidev",
+    "search.useIgnoreFiles": false,
+    "diffEditor.ignoreTrimWhitespace": false,
+    "scm.repositories.selectionMode": "single",
+    "json.schemaDownload.trustedDomains": {
+        "https://schemastore.azurewebsites.net/": true,
+        "https://raw.githubusercontent.com/": true,
+        "https://www.schemastore.org/": true,
+        "https://json.schemastore.org/": true,
+        "https://json-schema.org/": true,
+        "https://biomejs.dev": true
+    },
+    "taskexplorer.enabledTasks": {
+        "bash": false,
+        "batch": false,
+        "eslint": false
+    },
+    "taskexplorer.useGradleProvider": false,
+    "playwright.reuseBrowser": true,
+    "playwright.env": {},
+}
