@@ -1,0 +1,33 @@
+#!/bin/sh
+# Install/update oh-my-zsh and its external plugins.
+# Plugin list embedded so chezmoi reruns this script when the list changes:
+# Plugins: zsh-autosuggestions zsh-syntax-highlighting zsh-completions
+
+set -e
+
+# Bootstrap oh-my-zsh if missing. KEEP_ZSHRC=yes prevents it from overwriting
+# the chezmoi-managed .zshrc; RUNZSH=no prevents it from launching a subshell.
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+  echo "Installing oh-my-zsh..."
+  RUNZSH=no KEEP_ZSHRC=yes sh -c \
+    "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+fi
+
+ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
+
+clone_or_update() {
+  name="$1"
+  url="$2"
+  dest="$ZSH_CUSTOM/plugins/$name"
+  if [ -d "$dest/.git" ]; then
+    echo "Updating $name..."
+    git -C "$dest" pull --quiet --ff-only
+  else
+    echo "Cloning $name..."
+    git clone --depth 1 --quiet "$url" "$dest"
+  fi
+}
+
+clone_or_update zsh-autosuggestions     https://github.com/zsh-users/zsh-autosuggestions
+clone_or_update zsh-syntax-highlighting https://github.com/zsh-users/zsh-syntax-highlighting
+clone_or_update zsh-completions         https://github.com/zsh-users/zsh-completions

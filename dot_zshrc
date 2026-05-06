@@ -1,0 +1,59 @@
+source /opt/homebrew/opt/chruby/share/chruby/chruby.sh
+chruby 3.4.3
+
+# Path to oh-my-zsh installation.
+export ZSH="$HOME/.oh-my-zsh"
+
+ZSH_THEME="robbyrussell"
+
+# Plugins. Built-in plugins live in $ZSH/plugins, custom ones in $ZSH_CUSTOM/plugins.
+# zsh-syntax-highlighting must be the LAST plugin loaded.
+plugins=(
+  git 1password codex
+  pnpm npm yarn
+  docker docker-compose
+  gh gcloud terraform brew
+  zsh-completions
+  zsh-autosuggestions
+  zsh-syntax-highlighting
+)
+
+source $ZSH/oh-my-zsh.sh
+
+# === User configuration ===
+
+# Homebrew
+export PATH="/opt/homebrew/bin:$PATH"
+
+# pnpm
+export PNPM_HOME="$HOME/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# fnm (Node version manager)
+eval "$(fnm env --use-on-cd --shell zsh)"
+
+# Terraform bash-style completion
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /opt/homebrew/bin/terraform terraform
+
+# mysql-client
+export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
+
+# libpq (postgres client)
+export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+
+# opencode
+export PATH="$HOME/.opencode/bin:$PATH"
+
+# Local user binaries
+export PATH="$HOME/.local/bin:$PATH"
+
+# uv / Python env (created by `uv` installer)
+[ -f "$HOME/.local/bin/env" ] && . "$HOME/.local/bin/env"
