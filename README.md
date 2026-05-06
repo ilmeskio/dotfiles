@@ -4,14 +4,24 @@ Personal macOS dotfiles, managed with [chezmoi](https://www.chezmoi.io/).
 
 ## Bootstrap on a new machine
 
-After the [prerequisites](#prerequisites) below are in place, one command:
+Two commands:
 
 ```sh
+# 1. Homebrew (interactive — one time per machine)
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# 2. chezmoi + this repo
 sh -c "$(curl -fsLS get.chezmoi.io/lb)" -- init --apply ilmeskio
 ```
 
-This downloads chezmoi to `~/.local/bin/chezmoi` and runs `init --apply`
-against this repo. `chezmoi apply` then, in order:
+The chezmoi one-liner downloads chezmoi to `~/.local/bin/chezmoi` and runs
+`init --apply` against this repo. The install-packages script finds brew at
+its canonical install path (`/opt/homebrew/bin/brew` on Apple Silicon,
+`/usr/local/bin/brew` on Intel) even if you haven't yet run
+`eval $(brew shellenv)` in this shell — so the two commands above can be run
+back-to-back in a fresh terminal.
+
+`chezmoi apply` then, in order:
 
 1. Runs `brew bundle` against the [Brewfile](#homebrew-packages) (installs
    CLI tools and casks — including `chezmoi` itself, so future updates go
@@ -30,12 +40,14 @@ To upgrade chezmoi itself: `brew upgrade chezmoi`.
 
 ## Prerequisites
 
-- **Homebrew** — install from <https://brew.sh> before running `chezmoi apply`.
+Homebrew is installed by step 1 of the bootstrap above. The two manual
+sign-ins below can't be automated:
+
 - **1Password 8** with the SSH agent enabled (Settings → Developer → "Use the
-  SSH agent"). Required for the SSH integration below; the cask itself is
-  installed by the Brewfile, but you still need to sign in once.
-- **Mac App Store sign-in** — needed for the `mas` entries in the Brewfile
-  (e.g. QuickGif). Open App Store.app and sign in once before running
+  SSH agent"). Required for the SSH integration; the cask is installed by
+  the Brewfile but you still need to sign in once.
+- **Mac App Store** — needed for the `mas` entries in the Brewfile (e.g.
+  QuickGif). Open App Store.app and sign in once before running
   `chezmoi apply`; `mas` can't sign you in from the CLI on modern macOS.
 
 ## What's inside
