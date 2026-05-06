@@ -45,6 +45,8 @@ cask "dbeaver-community"
 cask "gcloud-cli"
 cask "docker-desktop"
 cask "maccy"                  # clipboard manager
+cask "obsidian"
+cask "spotify"
 
 # === Mac App Store ===
 # Requires being signed into the App Store at least once (mas can't sign you
