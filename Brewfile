@@ -42,3 +42,5 @@ cask "1password-cli"
 cask "visual-studio-code"
 cask "dbeaver-community"
 cask "gcloud-cli"
+cask "docker-desktop"
+cask "maccy"                  # clipboard manager
