@@ -99,6 +99,24 @@ User-level `settings.json` and `keybindings.json` (under
 are intentionally **not** managed here — those are handled by VS Code's
 built-in Settings Sync.
 
+### Claude Code
+
+A small, deliberate slice of `~/.claude/`:
+
+- [`dot_claude/CLAUDE.md`](dot_claude/CLAUDE.md) — global preferences loaded
+  in every Claude Code conversation (language, environment assumptions,
+  workflow rules).
+- [`dot_claude/statusline-command.sh`](dot_claude/statusline-command.sh) +
+  [`statusline-helpers.sh`](dot_claude/executable_statusline-helpers.sh) —
+  custom statusline scripts.
+- [`dot_claude/skills/clipboard/`](dot_claude/skills/clipboard) — custom
+  Skill that exposes a cross-platform clipboard helper.
+
+Everything else under `~/.claude/` (`.claude.json`, `history.jsonl`,
+`projects/`, `sessions/`, caches, telemetry, …) is **not** managed: it
+contains either auth tokens, runtime state, or machine-specific data that
+shouldn't follow you across machines.
+
 ## chezmoi conventions used here
 
 Chezmoi encodes behavior in filename prefixes. The ones that show up in this
