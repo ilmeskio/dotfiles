@@ -8,6 +8,7 @@ tap "oven-sh/bun"
 brew "git"
 brew "gh"
 brew "zsh"
+brew "mas"                    # Mac App Store CLI (used by the mas entries below)
 
 # === Languages / runtimes ===
 brew "fnm"                    # Node.js version manager
@@ -44,3 +45,9 @@ cask "dbeaver-community"
 cask "gcloud-cli"
 cask "docker-desktop"
 cask "maccy"                  # clipboard manager
+
+# === Mac App Store ===
+# Requires being signed into the App Store at least once (mas can't sign you
+# in from the CLI on modern macOS). Sign in via the App Store.app, then
+# re-run `brew bundle`.
+mas "QuickGif", id: 6744745027

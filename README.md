@@ -29,6 +29,9 @@ chezmoi update    # pull + apply
 - **1Password 8** with the SSH agent enabled (Settings → Developer → "Use the
   SSH agent"). Required for the SSH integration below; the cask itself is
   installed by the Brewfile, but you still need to sign in once.
+- **Mac App Store sign-in** — needed for the `mas` entries in the Brewfile
+  (e.g. QuickGif). Open App Store.app and sign in once before running
+  `chezmoi apply`; `mas` can't sign you in from the CLI on modern macOS.
 
 ## What's inside
 
