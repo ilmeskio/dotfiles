@@ -1,0 +1,13 @@
+#!/bin/sh
+# Install/update Homebrew packages from the Brewfile.
+# Hash below ties this script's identity to the Brewfile content so chezmoi reruns it on change:
+# Brewfile sha256: {{ include "Brewfile" | sha256sum }}
+
+set -e
+
+if ! command -v brew >/dev/null 2>&1; then
+  echo "Homebrew not found. Install it from https://brew.sh and re-run 'chezmoi apply'." >&2
+  exit 1
+fi
+
+brew bundle --file="{{ .chezmoi.sourceDir }}/Brewfile"
