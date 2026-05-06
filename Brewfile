@@ -46,6 +46,7 @@ cask "dbeaver-community"
 cask "gcloud-cli"
 cask "docker-desktop"
 cask "maccy"                  # clipboard manager
+cask "claude"                 # Claude Desktop chat app
 cask "obsidian"
 cask "spotify"
 

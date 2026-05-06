@@ -121,15 +121,24 @@ built-in Settings Sync.
 
 ### Claude Code
 
-A small, deliberate slice of `~/.claude/`:
+The Claude Code CLI is installed by
+[`run_once_install-claude-code.sh.tmpl`](run_once_install-claude-code.sh.tmpl)
+via Anthropic's native installer (`claude.ai/install.sh`) — the binary
+lands at `~/.local/share/claude/versions/<version>` with a symlink at
+`~/.local/bin/claude`. Subsequent updates are handled by `claude` itself,
+not chezmoi (`run_once_` means it runs only on first apply per machine).
+
+The Claude Desktop chat app comes from `cask "claude"` in the Brewfile.
+
+On top of that, a small, deliberate slice of `~/.claude/`:
 
 - [`dot_claude/CLAUDE.md`](dot_claude/CLAUDE.md) — global preferences loaded
   in every Claude Code conversation (language, environment assumptions,
   workflow rules).
 - [`dot_claude/private_settings.json.tmpl`](dot_claude/private_settings.json.tmpl)
-  — UI/behaviour preferences (theme, effort level, enabled plugins) plus
-  the wiring that points the statusline at the script below. Templated so
-  the path embeds `{{ .chezmoi.homeDir }}` instead of a hardcoded user.
+  — UI preferences (theme, enabled plugins) plus the wiring that points
+  the statusline at the script below. Templated so the path embeds
+  `{{ .chezmoi.homeDir }}` instead of a hardcoded user.
 - [`dot_claude/statusline-command.sh`](dot_claude/statusline-command.sh) +
   [`statusline-helpers.sh`](dot_claude/executable_statusline-helpers.sh) —
   custom statusline scripts (referenced by `settings.json` above).
