@@ -13,7 +13,6 @@ brew "mas"                    # Mac App Store CLI (used by the mas entries below
 
 # === Languages / runtimes ===
 brew "fnm"                    # Node.js version manager
-brew "pnpm"                   # global pnpm — coexists with per-project pnpm via corepack
 brew "python@3.12"
 brew "go"
 brew "oven-sh/bun/bun"

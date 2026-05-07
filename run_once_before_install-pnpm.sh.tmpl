@@ -1,0 +1,35 @@
+#!/bin/sh
+# Install pnpm (standalone, self-contained build with embedded Node) and
+# then wire up its zsh completion via tabtab.
+#
+# Why the standalone build instead of `brew install pnpm`: the Homebrew
+# formula ships pnpm as a `#!/usr/bin/env node` script and therefore needs
+# a system Node binary at runtime — which this setup deliberately doesn't
+# install (Node is per-project via fnm). The standalone build embeds Node,
+# so it works on a Node-less machine.
+#
+# The .zshrc lines that the installers (pnpm itself, then tabtab via
+# `pnpm install-completion zsh`) append to ~/.zshrc are overwritten by
+# the chezmoi-managed dot_zshrc applied right after this script — no drift.
+
+set -e
+
+PNPM_HOME="${PNPM_HOME:-$HOME/Library/pnpm}"
+export PNPM_HOME
+
+if [ ! -x "$PNPM_HOME/pnpm" ] && ! command -v pnpm >/dev/null 2>&1; then
+  echo "Installing pnpm (standalone)..."
+  curl -fsSL https://get.pnpm.io/install.sh | sh -
+fi
+
+if command -v pnpm >/dev/null 2>&1; then
+  PNPM=pnpm
+elif [ -x "$PNPM_HOME/pnpm" ]; then
+  PNPM="$PNPM_HOME/pnpm"
+else
+  echo "pnpm not found after install; aborting." >&2
+  exit 1
+fi
+
+echo "Installing pnpm zsh completion..."
+"$PNPM" install-completion zsh
