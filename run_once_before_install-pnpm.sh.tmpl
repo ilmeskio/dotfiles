@@ -1,6 +1,6 @@
 #!/bin/sh
 # Install pnpm (standalone, self-contained build with embedded Node) and
-# then wire up its zsh completion via tabtab.
+# generate its zsh completion script.
 #
 # Why the standalone build instead of `brew install pnpm`: the Homebrew
 # formula ships pnpm as a `#!/usr/bin/env node` script and therefore needs
@@ -8,9 +8,8 @@
 # install (Node is per-project via fnm). The standalone build embeds Node,
 # so it works on a Node-less machine.
 #
-# The .zshrc lines that the installers (pnpm itself, then tabtab via
-# `pnpm install-completion zsh`) append to ~/.zshrc are overwritten by
-# the chezmoi-managed dot_zshrc applied right after this script — no drift.
+# The pnpm installer appends PATH lines to ~/.zshrc; those are overwritten
+# by the chezmoi-managed dot_zshrc applied right after this script.
 
 set -e
 
@@ -31,5 +30,8 @@ else
   exit 1
 fi
 
-echo "Installing pnpm zsh completion..."
-"$PNPM" install-completion zsh
+# `pnpm completion zsh` prints the completion script on stdout. We write it
+# to ~/.config/pnpm/zsh-completion.zsh and source it from dot_zshrc.
+echo "Generating pnpm zsh completion..."
+mkdir -p "$HOME/.config/pnpm"
+"$PNPM" completion zsh > "$HOME/.config/pnpm/zsh-completion.zsh"
