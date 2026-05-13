@@ -1,3 +1,6 @@
+# ABOUTME: Zsh interactive shell config — oh-my-zsh + plugins + PATH (brew/pnpm/bun/fnm/uv) + atuin/direnv
+# ABOUTME: Sourced for every interactive zsh; expects ~/.oh-my-zsh (bootstrapped by run_onchange_install-omz-plugins)
+
 # Path to oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
@@ -40,6 +43,11 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 # fnm (Node version manager)
 eval "$(fnm env --use-on-cd --shell zsh)"
 
+# mise (multi-runtime version manager) — successor to asdf; binary installed by Brewfile.
+# When migrating off fnm: remove the fnm eval above, uncomment the line below,
+# and add `node <version>` to a project's .tool-versions or mise.toml.
+# eval "$(mise activate zsh)"
+
 # Terraform bash-style completion
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /opt/homebrew/bin/terraform terraform
@@ -58,3 +66,11 @@ export PATH="$HOME/.local/bin:$PATH"
 
 # uv / Python env (created by `uv` installer)
 [ -f "$HOME/.local/bin/env" ] && . "$HOME/.local/bin/env"
+
+# direnv — auto-load .envrc per directory (run `direnv allow` once per project)
+eval "$(direnv hook zsh)"
+
+# atuin — modern shell history (fuzzy Ctrl-R, SQLite-backed). Works fully offline;
+# the `atuin register` prompt on first run is for optional cloud sync — skip it.
+# Must come after oh-my-zsh because it rebinds the history widgets.
+eval "$(atuin init zsh)"

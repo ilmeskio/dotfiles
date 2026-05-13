@@ -150,6 +150,43 @@ Everything else under `~/.claude/` (`.claude.json`, `history.jsonl`,
 contains either auth tokens, runtime state, or machine-specific data that
 shouldn't follow you across machines.
 
+### Shell productivity — atuin, direnv, mise
+
+Three CLI tools installed by the Brewfile and wired into `dot_zshrc`:
+
+- **[atuin](https://atuin.sh)** replaces zsh's `Ctrl-R` with a fuzzy-search
+  TUI backed by SQLite. Works fully offline; sync is opt-in. The first-run
+  banner asking you to `atuin register` is for the sync feature only —
+  skip it if you don't need cross-machine history. See
+  [`docs/atuin.md`](docs/atuin.md).
+- **[direnv](https://direnv.net)** loads project-local environment variables
+  from `.envrc`. Run `direnv allow` once per file to authorize. See
+  [`docs/direnv.md`](docs/direnv.md).
+- **[mise](https://mise.jdx.dev)** is the modern `asdf` successor for
+  multi-runtime version management. The binary is installed but the shell
+  activation in `dot_zshrc` is **currently commented out** — `fnm` is still
+  the active Node version manager. Flip the switch when you have time to
+  migrate project `.nvmrc` files. See [`docs/mise.md`](docs/mise.md).
+
+### Terminal — Ghostty
+
+[Ghostty](https://ghostty.org) is a GPU-accelerated terminal emulator
+installed as a cask. Config is managed at
+[`dot_config/ghostty/config`](dot_config/ghostty/config) — pre-set with
+behavior tweaks (clipboard, no close-confirmation, macOS-style tab
+keybinds), with theme and font left configurable. Reload with
+`Cmd+Shift+,` inside the window. See [`docs/ghostty.md`](docs/ghostty.md).
+
+### macOS automation — Hammerspoon
+
+[Hammerspoon](https://www.hammerspoon.org) (cask) exposes macOS internals
+to Lua scripts: window tiling, global hotkeys, USB/network watchers, audio
+routing. First launch requires Accessibility permission in *System
+Settings → Privacy & Security*. The config (`~/.hammerspoon/init.lua`) is
+**not yet managed** — when you start scripting, run
+`chezmoi add ~/.hammerspoon/init.lua` to absorb it into the source. See
+[`docs/hammerspoon.md`](docs/hammerspoon.md).
+
 ## chezmoi conventions used here
 
 Chezmoi encodes behavior in filename prefixes. The ones that show up in this
@@ -185,3 +222,48 @@ repo:
 
 Full reference:
 <https://www.chezmoi.io/reference/source-state-attributes/>.
+
+## Repo conventions (not chezmoi)
+
+### `ABOUTME:` header on every script and config file
+
+Every script and config file in this repo starts with two `# ABOUTME:`
+comment lines (right after the shebang, if any):
+
+1. **What** the file is — one line.
+2. **How it's wired in** — who sources/executes it, key dependency, or the
+   non-obvious gotcha worth knowing at first glance.
+
+Example:
+
+```sh
+#!/bin/sh
+# ABOUTME: Runs `brew bundle` against the Brewfile; reruns whenever the Brewfile content changes
+# ABOUTME: Hash below ties this script's identity to the Brewfile so chezmoi sees the onchange:
+```
+
+The prefix is intentionally improbable so the whole repo can be indexed
+with a single grep:
+
+```sh
+grep -rH '^# ABOUTME:' .
+```
+
+The convention applies to every file we add. The only exception is
+`*.json.tmpl` files whose rendered output is JSON (no comment syntax) —
+there the description lives in this README instead.
+
+## Further reading
+
+Deep-dive notes on individual tools and workflows live under
+[`docs/`](docs/) — one markdown file per topic. They're kept out of
+`$HOME` via `.chezmoiignore`, so they stay as repo documentation only:
+
+- [`docs/atuin.md`](docs/atuin.md) — modern shell history
+- [`docs/direnv.md`](docs/direnv.md) — per-directory env vars
+- [`docs/mise.md`](docs/mise.md) — multi-runtime version manager (dormant)
+- [`docs/ghostty.md`](docs/ghostty.md) — terminal config and customization
+- [`docs/hammerspoon.md`](docs/hammerspoon.md) — macOS automation in Lua
+- [`docs/upstream-review.md`](docs/upstream-review.md) — periodically
+  pulling spunti from
+  [harperreed/dotfiles](https://github.com/harperreed/dotfiles)

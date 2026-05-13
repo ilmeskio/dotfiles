@@ -1,0 +1,35 @@
+# ABOUTME: Ghostty terminal config — behavior + keybinds borrowed from harperreed/dotfiles
+# ABOUTME: Reload with Cmd+Shift+, ; list available themes with `ghostty +list-themes`
+
+# === Behavior ===
+working-directory = home
+confirm-close-surface = false
+quit-after-last-window-closed = true
+
+# Shell integration is auto-detected for zsh; enable the optional features
+# (cursor shape per mode, sudo password prompt redaction, dynamic window title).
+shell-integration-features = cursor, sudo, title
+
+# Clipboard: allow programmatic read/write (OSC 52, needed for SSH copy-paste)
+# and strip trailing whitespace on paste so pasted snippets don't auto-execute.
+clipboard-read = allow
+clipboard-write = allow
+clipboard-trim-trailing-spaces = true
+
+# === Appearance ===
+# Pick a built-in theme: run `ghostty +list-themes` and uncomment one below.
+# theme = Catppuccin Macchiato
+background-opacity = 0.95
+background-blur = 20
+
+# Font: leave commented to use Ghostty's default. To customize, install a
+# programming font via the Brewfile (e.g. `cask "font-jetbrains-mono"`) and:
+# font-family = JetBrains Mono
+font-size = 14
+
+# === Keybindings ===
+# macOS-style tab navigation
+keybind = super+left=previous_tab
+keybind = super+right=next_tab
+# Insert a literal newline on Shift+Enter (handy in REPLs and multi-line inputs)
+keybind = shift+enter=text:\n
