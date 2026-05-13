@@ -56,7 +56,6 @@ cask "claude"                 # Claude Desktop chat app
 cask "obsidian"
 cask "spotify"
 cask "ghostty"                # GPU-accelerated terminal (config managed at dot_config/ghostty/config)
-cask "hammerspoon"            # macOS automation in Lua; needs Accessibility permission on first launch (config at ~/.hammerspoon/init.lua, not yet managed here)
 
 # === Mac App Store ===
 # Requires being signed into the App Store at least once (mas can't sign you

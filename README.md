@@ -185,16 +185,6 @@ behavior tweaks (clipboard, no close-confirmation, macOS-style tab
 keybinds), with theme and font left configurable. Reload with
 `Cmd+Shift+,` inside the window. See [`docs/ghostty.md`](docs/ghostty.md).
 
-### macOS automation — Hammerspoon
-
-[Hammerspoon](https://www.hammerspoon.org) (cask) exposes macOS internals
-to Lua scripts: window tiling, global hotkeys, USB/network watchers, audio
-routing. First launch requires Accessibility permission in *System
-Settings → Privacy & Security*. The config (`~/.hammerspoon/init.lua`) is
-**not yet managed** — when you start scripting, run
-`chezmoi add ~/.hammerspoon/init.lua` to absorb it into the source. See
-[`docs/hammerspoon.md`](docs/hammerspoon.md).
-
 ## chezmoi conventions used here
 
 Chezmoi encodes behavior in filename prefixes. The ones that show up in this
@@ -276,7 +266,6 @@ Deep-dive notes on individual tools and workflows live under
 - [`docs/direnv.md`](docs/direnv.md) — per-directory env vars
 - [`docs/mise.md`](docs/mise.md) — multi-runtime version manager (dormant)
 - [`docs/ghostty.md`](docs/ghostty.md) — terminal config and customization
-- [`docs/hammerspoon.md`](docs/hammerspoon.md) — macOS automation in Lua
 - [`docs/upstream-review.md`](docs/upstream-review.md) — periodically
   pulling spunti from
   [harperreed/dotfiles](https://github.com/harperreed/dotfiles)
