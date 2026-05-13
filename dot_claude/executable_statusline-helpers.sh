@@ -1,6 +1,6 @@
 #!/bin/bash
-
-# Helper functions for Claude Code StatusLine
+# ABOUTME: Helpers sourced by statusline-command.sh — usage-cache fetch + time/color/token formatters
+# ABOUTME: Caches Claude usage API responses to ~/.claude/.usage-cache.json with a 60s TTL
 
 CACHE_FILE="$HOME/.claude/.usage-cache.json"
 CACHE_TTL=60  # seconds

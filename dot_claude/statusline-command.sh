@@ -1,4 +1,7 @@
 #!/bin/sh
+# ABOUTME: Claude Code statusline renderer — dir, git branch, ctx %, 5h/7d rate limits, model + CC version
+# ABOUTME: Reads JSON from stdin (Claude Code statusline contract); wired via dot_claude/private_settings.json.tmpl
+
 input=$(cat)
 
 # Directory + git info

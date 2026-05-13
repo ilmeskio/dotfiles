@@ -1,6 +1,6 @@
 #!/bin/sh
-# Install/update Homebrew packages from the Brewfile.
-# Hash below ties this script's identity to the Brewfile content so chezmoi reruns it on change:
+# ABOUTME: Runs `brew bundle` against the Brewfile; reruns whenever the Brewfile content changes
+# ABOUTME: Hash below ties this script's identity to the Brewfile so chezmoi sees the onchange:
 # Brewfile sha256: {{ include "Brewfile" | sha256sum }}
 
 set -e

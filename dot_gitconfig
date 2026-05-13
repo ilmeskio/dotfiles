@@ -1,3 +1,6 @@
+# ABOUTME: Global git identity and git-lfs filter wiring (~/.gitconfig)
+# ABOUTME: Email uses the GitHub noreply alias; the LFS filters require `brew install git-lfs`
+
 [user]
 	email = 4226595+ilmeskio@users.noreply.github.com
 	name = Gabriele Consiglio

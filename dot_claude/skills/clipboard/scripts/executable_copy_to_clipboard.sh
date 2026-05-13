@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Cross-platform clipboard copy script
-# Supports macOS, Linux, Windows, WSL2, and SSH/remote shells
+# ABOUTME: Cross-platform clipboard copy used by the `clipboard` Claude Code skill
+# ABOUTME: Dispatches to pbcopy / xclip|xsel / clip.exe / clip / OSC 52 based on platform and SSH state
 
 set -euo pipefail
 

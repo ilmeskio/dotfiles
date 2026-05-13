@@ -1,6 +1,6 @@
 #!/bin/sh
-# Install pnpm (standalone, self-contained build with embedded Node) and
-# generate its zsh completion script.
+# ABOUTME: Installs pnpm via the standalone (Node-less) installer and generates its zsh completion
+# ABOUTME: Runs once before file application; standalone build avoids brew's #!/usr/bin/env node formula
 #
 # Why the standalone build instead of `brew install pnpm`: the Homebrew
 # formula ships pnpm as a `#!/usr/bin/env node` script and therefore needs

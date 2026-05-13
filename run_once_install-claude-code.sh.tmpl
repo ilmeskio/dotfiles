@@ -1,8 +1,9 @@
 #!/bin/sh
-# Install the Claude Code CLI via Anthropic's native installer.
+# ABOUTME: First-install of the Claude Code CLI via Anthropic's native installer
+# ABOUTME: Runs once per machine; subsequent updates handled by `claude update`, not chezmoi
+#
 # The installer drops the binary into ~/.local/share/claude/versions/<version>
-# and symlinks it to ~/.local/bin/claude. After install, `claude update`
-# keeps it current — chezmoi only handles the first install (run_once_).
+# and symlinks it to ~/.local/bin/claude.
 
 set -e
 
