@@ -1,15 +1,50 @@
 {
-  "statusLine": {
-    "type": "command",
-    "command": "sh {{ .chezmoi.homeDir }}/.claude/statusline-command.sh"
-  },
+  "effortLevel": "high",
   "enabledPlugins": {
     "example-skills@anthropic-agent-skills": true
   },
-  "effortLevel": "high",
-  "theme": "auto",
-  "skipAutoPermissionPrompt": true,
+  "hooks": {
+    "PostToolUse": [
+      {
+        "hooks": [
+          {
+            "command": "atuin hook claude-code",
+            "type": "command"
+          }
+        ],
+        "matcher": "Bash"
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "hooks": [
+          {
+            "command": "atuin hook claude-code",
+            "type": "command"
+          }
+        ],
+        "matcher": "Bash"
+      }
+    ],
+    "PreToolUse": [
+      {
+        "hooks": [
+          {
+            "command": "atuin hook claude-code",
+            "type": "command"
+          }
+        ],
+        "matcher": "Bash"
+      }
+    ]
+  },
   "permissions": {
     "defaultMode": "auto"
-  }
+  },
+  "skipAutoPermissionPrompt": true,
+  "statusLine": {
+    "command": "sh {{ .chezmoi.homeDir }}/.claude/statusline-command.sh",
+    "type": "command"
+  },
+  "theme": "auto"
 }
