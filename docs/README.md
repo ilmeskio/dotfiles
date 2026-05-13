@@ -18,6 +18,8 @@ stay in the source repo and never get installed into `$HOME`.
 
 - [upstream-review.md](upstream-review.md) — periodically pulling spunti from
   [harperreed/dotfiles](https://github.com/harperreed/dotfiles)
+- [imported-skills.md](imported-skills.md) — Claude Code skills imported
+  verbatim from upstream (provenance + re-sync instructions)
 
 ## Conventions
 

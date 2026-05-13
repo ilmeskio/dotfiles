@@ -144,6 +144,14 @@ On top of that, a small, deliberate slice of `~/.claude/`:
   custom statusline scripts (referenced by `settings.json` above).
 - [`dot_claude/skills/clipboard/`](dot_claude/skills/clipboard) — custom
   Skill that exposes a cross-platform clipboard helper.
+- [`dot_claude/skills/humanizer/`](dot_claude/skills/humanizer) and
+  [`dot_claude/skills/session-reflection-analysis/`](dot_claude/skills/session-reflection-analysis)
+  — Skills imported verbatim from
+  [harperreed/dotfiles](https://github.com/harperreed/dotfiles). The
+  first edits text to remove AI-writing patterns; the second analyzes
+  past Claude Code session logs for inefficiencies. See
+  [`docs/imported-skills.md`](docs/imported-skills.md) for provenance and
+  re-sync instructions.
 
 Everything else under `~/.claude/` (`.claude.json`, `history.jsonl`,
 `projects/`, `sessions/`, caches, telemetry, …) is **not** managed: it
@@ -249,9 +257,14 @@ with a single grep:
 grep -rH '^# ABOUTME:' .
 ```
 
-The convention applies to every file we add. The only exception is
-`*.json.tmpl` files whose rendered output is JSON (no comment syntax) —
-there the description lives in this README instead.
+The convention applies to every file we add. Exceptions:
+
+- `*.json.tmpl` files whose rendered output is JSON (no comment syntax) —
+  there the description lives in this README instead.
+- `SKILL.md` files under `dot_claude/skills/*/` — the YAML frontmatter
+  already serves as self-description, and skills imported from upstream
+  are kept byte-identical to enable clean re-syncs. See
+  [`docs/imported-skills.md`](docs/imported-skills.md).
 
 ## Further reading
 
@@ -267,3 +280,5 @@ Deep-dive notes on individual tools and workflows live under
 - [`docs/upstream-review.md`](docs/upstream-review.md) — periodically
   pulling spunti from
   [harperreed/dotfiles](https://github.com/harperreed/dotfiles)
+- [`docs/imported-skills.md`](docs/imported-skills.md) — Claude Code
+  skills pulled in verbatim from upstream (provenance + re-sync)
