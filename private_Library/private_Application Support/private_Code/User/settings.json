@@ -83,4 +83,6 @@
     "taskexplorer.useGradleProvider": false,
     "playwright.reuseBrowser": true,
     "playwright.env": {},
+    "githubPullRequests.pullBranch": "never",
+    "git.autofetch": true,
 }
