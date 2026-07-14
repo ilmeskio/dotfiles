@@ -11,8 +11,24 @@ macOS — assume zsh, Homebrew at `/opt/homebrew`, and BSD-flavored CLI tools
 (e.g. `sed -i '' …`, not GNU syntax) unless the project pins a specific
 toolchain.
 
+## GitHub / SSH
+
+L'autenticazione GitHub avviene via SSH con la chiave gestita da 1Password
+(SSH agent). Ogni operazione che usa la chiave (`git push`, `git fetch`,
+`git clone` da un remote `git@github.com:…`) richiede un'approvazione
+interattiva nel prompt di 1Password: se non la confermo, l'operazione SSH
+fallisce (es. permission denied / timeout). Non è un problema di
+configurazione — basta approvare e riprovare.
+
+Non aggirare mai il flusso SSH per evitare quell'approvazione: non passare a
+remote HTTPS, non riscrivere gli URL dei remote, non usare token o
+`GIT_ASKPASS`. Se un'operazione SSH fallisce per mancata approvazione,
+segnalamelo e attendi che approvi, poi riprova via SSH.
+
 ## Workflow
 
+- Do not append `Co-Authored-By:` trailers (or "Generated with Claude Code"
+  lines) to commit messages — keep them clean.
 - Before rebasing, large refactors, or any multi-file restructuring,
   summarize the branch's goals and the proposed changes and wait for
   confirmation before committing.
@@ -30,3 +46,9 @@ it in this session.
 
 When asked for examples or alternative approaches, present them as choices
 for the user to pick from. Do not pick one silently and start editing.
+
+Be literal in technical contexts. When a word could mean either a concrete
+artifact (a git branch, a file, a temp folder, a process) or a figure of
+speech (a "branch" to explore, a "thread" of reasoning), state which you
+mean — never leave it ambiguous. Prefer plain, concrete wording over
+metaphor when describing what exists and where it lives.
