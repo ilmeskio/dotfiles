@@ -1,4 +1,4 @@
-# ABOUTME: Global git identity and git-lfs filter wiring (~/.gitconfig)
+# ABOUTME: Global git identity, branch/push defaults and git-lfs filter wiring (~/.gitconfig)
 # ABOUTME: Email uses the GitHub noreply alias; the LFS filters require `brew install git-lfs`
 
 [user]
@@ -9,6 +9,13 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+[branch]
+	# Only inherit the upstream when the new branch has the same name as the
+	# remote one, so `git switch -c x origin/main` no longer tracks origin/main
+	autoSetupMerge = simple
+[push]
+	# First `git push` creates the remote branch with the same name, no -u needed
+	autoSetupRemote = true
 {{ if lookPath "gh" -}}
 [credential "https://github.com"]
 	helper =

@@ -64,6 +64,9 @@ export PATH="$HOME/.opencode/bin:$PATH"
 # Local user binaries
 export PATH="$HOME/.local/bin:$PATH"
 
+# Homebrew Ruby gems (e.g. kamal) — system Ruby is too old for these
+export PATH="/opt/homebrew/lib/ruby/gems/4.0.0/bin:$PATH"
+
 # uv / Python env (created by `uv` installer)
 [ -f "$HOME/.local/bin/env" ] && . "$HOME/.local/bin/env"
 
@@ -74,3 +77,18 @@ eval "$(direnv hook zsh)"
 # the `atuin register` prompt on first run is for optional cloud sync — skip it.
 # Must come after oh-my-zsh because it rebinds the history widgets.
 eval "$(atuin init zsh)"
+
+# chezmoi — warn when a managed file in home has drifted from the source of
+# truth (~/.local/share/chezmoi). Silent when everything is in sync. Fix with
+# `chezmoi diff <target>` then `chezmoi edit --apply <target>`; never a bare
+# `chezmoi apply`, which overwrites the home version.
+if command -v chezmoi >/dev/null 2>&1; then
+  # .claude/settings.json diverges on purpose: the source is a sanitised
+  # template (the dotfiles repo is public), the local file carries org data.
+  _chezmoi_drift=$(chezmoi status 2>/dev/null | grep -v '\.claude/settings\.json$')
+  if [[ -n $_chezmoi_drift ]]; then
+    print -P "%F{yellow}chezmoi: drift rispetto alla sorgente%f"
+    print -r -- "$_chezmoi_drift"
+  fi
+  unset _chezmoi_drift
+fi

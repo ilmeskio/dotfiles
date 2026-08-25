@@ -35,6 +35,33 @@ segnalamelo e attendi che approvi, poi riprova via SSH.
 - For non-trivial features in a codebase that already has tests, prefer the
   test-first cycle: write the failing test, then the minimum code to pass,
   then refactor. Skip on small bugfixes or one-line tweaks.
+- When creating a git branch, never set its upstream to the branch it was
+  started from. Create it with plain `git switch -c <name>` (no start-point
+  ref like `origin/main`), and before the first push check the upstream with
+  `git rev-parse --abbrev-ref @{upstream}`. If it points at another branch,
+  run `git branch --unset-upstream` first. Publish with
+  `git push -u origin HEAD` so the remote branch takes the same name.
+
+## Dotfiles (chezmoi)
+
+My dotfiles are managed by chezmoi: the source of truth is
+`~/.local/share/chezmoi` (remote `git@github.com:ilmeskio/dotfiles.git`),
+not the files in my home directory. `~/.gitconfig`, `~/.zshrc` and
+everything under `~/.claude/` are managed this way.
+
+- Never edit a managed file directly in home, and never use `git config
+  --global` for a permanent setting — `chezmoi apply` will silently discard
+  it. Edit the source instead: `chezmoi edit --apply <target>`, or modify the
+  file under `~/.local/share/chezmoi` and then `chezmoi apply <target>`.
+- `chezmoi re-add` does not work on templates (files ending in `.tmpl`, e.g.
+  `dot_gitconfig.tmpl`) — it skips them without a word. Check with
+  `chezmoi source-path <target>` before assuming a file can be re-added.
+- Preview a template's rendered output with `chezmoi cat <target>` before
+  applying it.
+- Check for drift with `chezmoi status` when you touch anything managed, and
+  tell me what it reports. Never run a bare `chezmoi apply` to resolve drift
+  you did not create — it overwrites the home version. Show me the
+  `chezmoi diff` and let me decide which side wins.
 
 ## Testing
 
