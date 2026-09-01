@@ -2,3 +2,8 @@ README.md
 Brewfile
 docs
 docs/**
+
+# Claude Code rewrites this file itself (/model, /config, plugin installs,
+# autoMode context), so it drifts constantly. Deliberately unmanaged —
+# see docs/claude-code.md for the settings worth restoring by hand.
+.claude/settings.json

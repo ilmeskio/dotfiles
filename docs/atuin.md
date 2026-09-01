@@ -32,59 +32,58 @@ atuin stats                    # most-used commands, totals, time spent
 atuin history list --cwd .     # all commands run in this directory
 ```
 
-## AI-agent hooks
+## AI-agent hooks — tried, then removed
 
-Atuin 18+ ships a feature to capture commands run by AI coding agents
-(Claude Code, aider, …) into your atuin history alongside the ones you
-type. Enabled in this repo for Claude Code.
+Atuin 18+ can capture commands run by AI coding agents (Claude Code,
+aider, …) into your history alongside the ones you type. It was enabled
+here for Claude Code from May 2026, via three `atuin hook claude-code`
+hooks on the `Bash` tool matcher in `~/.claude/settings.json`.
 
-### What's installed
+**Removed in September 2026.** The reason is arithmetic: of 72,348
+entries in the history database, 71,646 were Claude's — 99.0%. Only 702
+commands were actually typed by a human. `Ctrl-R` had stopped being a
+memory aid and become a log of somebody else's work.
 
-`~/.claude/settings.json` registers three Claude Code hooks — all on
-the `Bash` tool matcher — that pipe the tool input through
-`atuin hook claude-code`:
+### Filtering, if you ever re-enable them
 
-- `PreToolUse` — records the command before execution
-- `PostToolUse` — records exit code, duration, output snippet
-- `PostToolUseFailure` — captures failures explicitly
+The hooks are worth knowing about, because atuin *does* distinguish the
+two. The `history` table has `author` (`claude-code` vs your username)
+and `intent` (the agent's one-line rationale for the command), and
+`atuin search` grew an `--author` flag that takes `$all-user`
+(non-agents), `$all-agent`, or a literal name:
 
-The config is templated in
-[`dot_claude/private_settings.json.tmpl`](../dot_claude/private_settings.json.tmpl)
-so it travels with chezmoi.
+```sh
+atuin search --author '$all-user'    # only what you typed
+atuin search --author '$all-agent'   # only what the agent ran
+```
 
-### Why it's useful
+Two caveats found the hard way:
 
-After a session you can `atuin search` and find both the commands you
-typed yourself *and* the ones Claude ran (e.g., `git diff`, `gh api`,
-`chezmoi apply`). Handy when you remember "we ran something yesterday
-that did X" but can't remember whether it was you or the agent.
+- The equivalent key in `config.toml` (`[search] author`) is **ignored**
+  — verified against 18.16.1, output identical with and without it. Only
+  the CLI flag works.
+- To default `Ctrl-R` to human-only you therefore have to wrap the zsh
+  widget, which forwards its arguments down to `atuin search`:
 
-### Filtering them out
+  ```zsh
+  _atuin_search_human() { _atuin_search --author '$all-user' "$@" }
+  zle -N atuin-search-human _atuin_search_human
+  bindkey -M emacs '^r' atuin-search-human
+  ```
 
-If the agent commands clutter your `Ctrl-R` results, atuin lets you
-filter by session/host/cwd inside the TUI. There's no official "hide
-AI commands" flag yet — keep an eye on the
-[atuin changelog](https://github.com/atuinsh/atuin/releases) for one.
+Not installed here — with the hooks gone there is nothing to filter.
 
-### Removing the hooks
-
-`atuin hook` doesn't ship an `uninstall` subcommand. To disable:
-
-1. Edit the template
-   [`dot_claude/private_settings.json.tmpl`](../dot_claude/private_settings.json.tmpl)
-   and remove the `"hooks"` block.
-2. `chezmoi apply ~/.claude/settings.json` to push the change to `$HOME`.
-
-### Drift warning when re-running `atuin hook install`
+### Re-enabling
 
 `atuin hook install claude-code` writes directly to
-`~/.claude/settings.json` and reorders the keys alphabetically. Since
-this file is chezmoi-managed via a `.tmpl`, every install creates a
-drift between source and target. The repo template is already in the
-post-install state (sorted keys, hooks block present), so this isn't
-an issue today — but if you re-run `atuin hook install` after editing
-the template, you'll have to merge the changes back into the `.tmpl`
-manually (`chezmoi re-add` doesn't work on templates).
+`~/.claude/settings.json`, reordering its keys alphabetically. That file
+is no longer chezmoi-managed (see [claude-code.md](claude-code.md)), so
+this no longer causes drift — but it also means the change won't travel
+to another machine.
+
+The ~71.6k agent commands already recorded were left in the database:
+harmless unless you go looking for them, and
+`atuin search --author '$all-agent' --delete` is irreversible.
 
 ## Other features (and what we deliberately skipped)
 

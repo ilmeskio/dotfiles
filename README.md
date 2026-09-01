@@ -135,13 +135,13 @@ On top of that, a small, deliberate slice of `~/.claude/`:
 - [`dot_claude/CLAUDE.md`](dot_claude/CLAUDE.md) — global preferences loaded
   in every Claude Code conversation (language, environment assumptions,
   workflow rules).
-- [`dot_claude/private_settings.json.tmpl`](dot_claude/private_settings.json.tmpl)
-  — UI preferences (theme, enabled plugins) plus the wiring that points
-  the statusline at the script below. Templated so the path embeds
-  `{{ .chezmoi.homeDir }}` instead of a hardcoded user.
+- `~/.claude/settings.json` — **not managed**, on purpose: Claude Code
+  rewrites it on its own and it drifted permanently against the source.
+  See [docs/claude-code.md](docs/claude-code.md) for the reasoning and
+  the handful of settings worth restoring by hand.
 - [`dot_claude/statusline-command.sh`](dot_claude/statusline-command.sh) +
   [`statusline-helpers.sh`](dot_claude/executable_statusline-helpers.sh) —
-  custom statusline scripts (referenced by `settings.json` above).
+  custom statusline scripts (referenced by `settings.json` in `$HOME`).
 - [`dot_claude/skills/clipboard/`](dot_claude/skills/clipboard) — custom
   Skill that exposes a cross-platform clipboard helper.
 - [`dot_claude/skills/humanizer/`](dot_claude/skills/humanizer) and

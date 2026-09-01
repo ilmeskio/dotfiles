@@ -12,6 +12,8 @@ stay in the source repo and never get installed into `$HOME`.
 - [direnv.md](direnv.md) — per-directory env vars from `.envrc`
 - [mise.md](mise.md) — multi-runtime version manager (dormant; replaces `fnm` when ready)
 - [ghostty.md](ghostty.md) — terminal config, theme picking, font customization
+- [claude-code.md](claude-code.md) — why `~/.claude/settings.json` is
+  deliberately unmanaged (and what to restore by hand)
 
 ## Workflow
 
