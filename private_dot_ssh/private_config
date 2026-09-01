@@ -1,3 +1,9 @@
 Host *
 	IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
-
+	# La VPN OpenVPN non pusha alcuna direttiva keepalive: senza traffico in
+	# ingresso il client riavvia il tunnel dopo ~40s di silenzio, uccidendo le
+	# sessioni TCP che ci passano (broken pipe su SSH). Le risposte a queste
+	# keepalive azzerano quel contatore, quindi l'intervallo deve stare
+	# ben sotto i 40s.
+	ServerAliveInterval 15
+	ServerAliveCountMax 4
