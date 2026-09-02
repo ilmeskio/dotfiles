@@ -8,7 +8,9 @@ tap "hashicorp/tap"
 tap "oven-sh/bun"
 
 # === Core CLI ===
-brew "chezmoi"                # this very repo's apply tool — managed by brew so it stays updated
+# chezmoi itself is deliberately NOT here: the bootstrap one-liner in the
+# README drops it at ~/.local/bin/chezmoi, which precedes /opt/homebrew/bin
+# in PATH and would shadow a brew copy anyway. Update it with `chezmoi upgrade`.
 brew "git"
 brew "gh"
 brew "zsh"

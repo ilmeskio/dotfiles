@@ -21,6 +21,13 @@ its canonical install path (`/opt/homebrew/bin/brew` on Apple Silicon,
 `eval $(brew shellenv)` in this shell — so the two commands above can be run
 back-to-back in a fresh terminal.
 
+That bootstrap binary stays the one you use: `~/.local/bin` precedes
+`/opt/homebrew/bin` in `PATH`, so a Homebrew copy would sit there shadowed
+and never run — which is exactly what happened between May and September
+2026, leaving the real chezmoi four months stale while `brew upgrade`
+dutifully updated a binary nobody invoked. chezmoi is therefore kept out of
+the Brewfile on purpose; update it in place with `chezmoi upgrade`.
+
 `chezmoi apply` then, in order:
 
 1. Runs `brew bundle` against the [Brewfile](#homebrew-packages) (installs
