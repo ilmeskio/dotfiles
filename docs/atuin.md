@@ -81,9 +81,25 @@ is no longer chezmoi-managed (see [claude-code.md](claude-code.md)), so
 this no longer causes drift — but it also means the change won't travel
 to another machine.
 
-The ~71.6k agent commands already recorded were left in the database:
-harmless unless you go looking for them, and
-`atuin search --author '$all-agent' --delete` is irreversible.
+### The archive, and the full reset
+
+The ~71.6k agent commands already recorded were deleted with
+`atuin search --author '$all-agent' --delete`, which does honour the
+author filter — the 711 human entries survived it. Shortly after, the
+whole history was reset from scratch: daemon stopped, then `history.db`,
+`records.db`, `meta.db` and `key` removed. Atuin recreates all of them
+(and a fresh encryption key) on the next run; config and the zsh binding
+are untouched. That reclaimed ~350 MB — `records.db`, the append-only
+sync log, had grown to 172 MB on its own and no `atuin` subcommand
+compacts it.
+
+Two gotchas met along the way, both worth remembering:
+
+- `--delete` refuses to run on filters alone: `--author '$all-agent'`
+  without a query errors with *"Please specify a query"*. Pass an empty
+  query (`''`) to mean "everything matching the filters".
+- Deleting rows does not shrink `history.db` — the freed pages stay in
+  the file. `sqlite3 history.db 'VACUUM;'` took it from 178 MB to 336 KB.
 
 ## Other features (and what we deliberately skipped)
 
@@ -105,8 +121,11 @@ this specific setup:
   as context. Costs tokens; overlaps heavily with Claude Code in
   another pane. Worth a play only if you genuinely want shell-level AI
   completion.
-- **`atuin daemon`** — *not enabled*. Experimental background process
-  for faster history writes. Wait until it's marked stable.
+- **`atuin daemon`** — *enabled* (`[daemon] enabled = true`,
+  `autostart = true`). Background process for faster history writes;
+  starts with the first interactive shell. Note it holds the database
+  open, so stop it before removing or replacing any file under
+  `~/.local/share/atuin/`.
 
 ## Optional: cloud sync
 
