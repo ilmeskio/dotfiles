@@ -69,6 +69,24 @@ Verify claims by actually running tests and builds before reporting status.
 Never describe a test as "passing" or "verifying behavior" without executing
 it in this session.
 
+## Writing documents
+
+**Describe the state being proposed, not how you got there.** A document is read by
+people who were not in the conversation that produced it: constructions like "it
+stays three because…", "the alternative was discarded", "it's no longer a fourth
+thing", "until yesterday this said…" narrate an earlier, wider draft and force the
+reader to reconstruct a discussion they never had. Write what is true now, in the
+affirmative.
+
+Where the roads not taken are worth keeping — because a reader would otherwise
+propose them again — collect them in a section of their own at the end
+(*Discarded directions*), each with the reason it does not hold. Not scattered
+through the prose as negations.
+
+The same applies to conventions: state a rule once, where it belongs. A document
+that repeats what the project's README or a guidance already says spends its first
+paragraphs on something the reader can find elsewhere.
+
 ## Communication style
 
 When asked for examples or alternative approaches, present them as choices
