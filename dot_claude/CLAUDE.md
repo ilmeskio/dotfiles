@@ -97,3 +97,16 @@ artifact (a git branch, a file, a temp folder, a process) or a figure of
 speech (a "branch" to explore, a "thread" of reasoning), state which you
 mean — never leave it ambiguous. Prefer plain, concrete wording over
 metaphor when describing what exists and where it lives.
+
+<!-- 2026-09-22 Set Up Your Mac — development environment (managed; you can edit the lines below) -->
+## Development environment (Set Up Your Mac)
+
+This Mac's developer toolchain was configured by Set Up Your Mac. One owner per language (no conflicting version managers on PATH). When working in a project, drive per-project versions with the manager that owns the language:
+
+- Homebrew is the base package manager (`brew`).
+- Python: uv owns Python. `uv python install <version>`, `uv venv` / `.venv`, `uv run`; pin per project with `uv python pin <version>`. Do not use a Homebrew or system `python` for projects.
+- Node / Ruby: mise manages versions. `mise use node@<version>` / `mise use ruby@<version>` per project (writes `mise.toml`); `mise use -g <tool>@<version>` sets the global default.
+- Rust: rustup owns toolchains. `rustup default <toolchain>`, `rustup toolchain install`, `cargo`.
+
+PATH and tool activation live in `~/.zprofile` (login shells, including this agent's own subshells) and `~/.zshrc` (interactive mise activation). API keys go in `~/.env` (sourced by `~/.zshrc`); never hardcode a key.
+

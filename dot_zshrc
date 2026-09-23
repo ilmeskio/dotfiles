@@ -92,3 +92,10 @@ if command -v chezmoi >/dev/null 2>&1; then
   fi
   unset _chezmoi_drift
 fi
+
+# 2026-09-22 Set Up Your Mac — interactive shell
+if type brew >/dev/null 2>&1; then
+  FPATH="$(brew --prefix)/share/zsh/site-functions:$FPATH"
+fi
+autoload -Uz compinit && compinit
+[ -f "$HOME/.env" ] && set -a && source "$HOME/.env" && set +a
