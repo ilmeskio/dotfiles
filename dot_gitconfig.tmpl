@@ -9,6 +9,8 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+[init]
+	defaultBranch = main
 [branch]
 	# Only inherit the upstream when the new branch has the same name as the
 	# remote one, so `git switch -c x origin/main` no longer tracks origin/main

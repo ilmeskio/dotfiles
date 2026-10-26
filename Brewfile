@@ -3,9 +3,6 @@
 
 # === Taps ===
 tap "atlassian/acli"
-tap "cloudflare/cloudflare"
-tap "hashicorp/tap"
-tap "oven-sh/bun"
 
 # === Core CLI ===
 # chezmoi itself is deliberately NOT here: the bootstrap one-liner in the
@@ -17,24 +14,19 @@ brew "zsh"
 brew "mas"                    # Mac App Store CLI (used by the mas entries below)
 
 # === Languages / runtimes ===
-brew "fnm"                    # Node.js version manager
-brew "mise"                   # multi-runtime version manager (asdf successor); activation in dot_zshrc is currently commented out — flip the switch when migrating off fnm
-brew "python@3.12"
-brew "go"
+brew "mise"                   # multi-runtime version manager (asdf successor); activated in dot_zshrc, owns Node (global and per project, .nvmrc) and OpenTofu via a project's mise.toml
 brew "oven-sh/bun/bun"
 
 # === Shell productivity ===
-brew "atuin"                  # modern shell history with fuzzy Ctrl-R search (works fully offline; sync is opt-in)
 brew "direnv"                 # auto-load .envrc per directory (env vars per project)
 
 # === Databases ===
 brew "mysql-client"
 
 # === Infra / cloud ===
-brew "cloudflared"
 brew "cloudflare/cloudflare/cf-terraforming"
 brew "hashicorp/tap/terraform"
-brew "opentofu"
+# OpenTofu comes from mise (a project's mise.toml), not brew: a brew copy shadows the pinned version.
 brew "atlassian/acli/acli"
 
 # === Document tooling ===
@@ -42,22 +34,34 @@ brew "pandoc"
 brew "graphviz"
 brew "poppler"
 brew "weasyprint"
+brew "git-delta"              # side-by-side diffs in the terminal (herdr-preview fallback outside Wave)
 
 # === Misc ===
 brew "speedtest-cli"
+brew "duti"                   # default apps per file type; list in dot_config/duti/defaults.duti
 
 # === GUI apps ===
 cask "1password"
 cask "1password-cli"
 cask "visual-studio-code"
+cask "zed"                     # visualizzatore predefinito per testo e codice (duti)
 cask "dbeaver-community"
-cask "gcloud-cli"
 cask "docker-desktop"
 cask "maccy"                  # clipboard manager
 cask "claude"                 # Claude Desktop chat app
 cask "obsidian"
 cask "spotify"
-cask "ghostty"                # GPU-accelerated terminal (config managed at dot_config/ghostty/config)
+cask "google-chrome"
+cask "thebrowsercompany-dia"
+cask "notion"
+cask "notion-calendar"
+cask "todoist-app"
+cask "raindropio"
+cask "whatsapp"
+cask "handy"
+cask "logi-options+"
+cask "nordvpn"
+cask "openvpn-connect"
 
 # === Mac App Store ===
 # Requires being signed into the App Store at least once (mas can't sign you

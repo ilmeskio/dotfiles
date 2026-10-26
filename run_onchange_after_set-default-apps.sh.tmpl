@@ -1,0 +1,17 @@
+#!/bin/sh
+# ABOUTME: Applies default apps per file type with duti; reruns whenever defaults.duti changes
+# ABOUTME: Runs after packages are installed, so duti is already available
+# defaults.duti sha256: {{ include "dot_config/duti/defaults.duti" | sha256sum }}
+
+set -e
+
+if command -v duti >/dev/null 2>&1; then
+  DUTI=duti
+elif [ -x /opt/homebrew/bin/duti ]; then
+  DUTI=/opt/homebrew/bin/duti
+else
+  echo "duti not found. It is in the Brewfile: run 'chezmoi apply' again after brew bundle." >&2
+  exit 1
+fi
+
+"$DUTI" "{{ .chezmoi.sourceDir }}/dot_config/duti/defaults.duti"

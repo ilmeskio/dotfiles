@@ -1,0 +1,31 @@
+# App predefinite per tipo di file, applicate con duti.
+# Formato: bundle_id  tipo (UTI o .estensione)  ruolo
+# Lo script run_onchange_after_set-default-apps.sh.tmpl le riapplica quando questo file cambia.
+# macOS può impiegare qualche minuto a mostrare le nuove associazioni.
+
+# Zed: testo strutturato e codice
+dev.zed.Zed           public.json                     all
+dev.zed.Zed           public.yaml                     all
+dev.zed.Zed           public.xml                      all
+dev.zed.Zed           public.css                      all
+dev.zed.Zed           public.python-script            all
+dev.zed.Zed           public.shell-script             all
+dev.zed.Zed           public.zsh-script               all
+dev.zed.Zed           public.bash-script              all
+dev.zed.Zed           com.netscape.javascript-source  all
+dev.zed.Zed           .yml                            all
+dev.zed.Zed           .yaml                           all
+dev.zed.Zed           .toml                           all
+dev.zed.Zed           .ts                             all
+dev.zed.Zed           .mjs                            all
+dev.zed.Zed           .ini                            all
+
+# GridCraft: fogli di calcolo Excel (csv e tsv restano su Numbers)
+ai.storyteller.gridcraft  org.openxmlformats.spreadsheetml.sheet              all
+ai.storyteller.gridcraft  org.openxmlformats.spreadsheetml.sheet.macroenabled all
+
+# WordCraft: documenti di testo
+ai.storyteller.wordcraft  org.openxmlformats.wordprocessingml.document  all
+ai.storyteller.wordcraft  org.openxmlformats.wordprocessingml.template  all
+ai.storyteller.wordcraft  com.microsoft.word.doc                        all
+ai.storyteller.wordcraft  org.oasis-open.opendocument.text              all
