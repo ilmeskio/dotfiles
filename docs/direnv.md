@@ -35,10 +35,8 @@ and unset them when you leave. Edit the file → `direnv allow` again.
 layout python3                # creates .direnv/python-3.x and activates it
 ```
 
-**Node version via fnm (or mise):**
-```sh
-use fnm                       # reads .nvmrc / .node-version
-```
+**Runtimes and project tools** stay out of `.envrc`: mise activates them
+from the project's `mise.toml` or `.nvmrc` (see [mise.md](mise.md)).
 
 **Secrets from 1Password CLI (no plaintext in the file):**
 ```sh

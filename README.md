@@ -30,12 +30,19 @@ the Brewfile on purpose; update it in place with `chezmoi upgrade`.
 
 `chezmoi apply` then, in order:
 
-1. Runs `brew bundle` against the [Brewfile](#homebrew-packages) (installs
-   CLI tools and casks — including `chezmoi` itself, so future updates go
-   through brew rather than the bootstrap binary).
-2. Bootstraps oh-my-zsh and clones the [external plugins](#shell---zshrc-oh-my-zsh--external-plugins).
-3. Installs the managed dotfiles (`.zshrc`, `.gitconfig`, `.ssh/config`,
-   VS Code config, the 1Password LaunchAgent, …).
+1. Asks once for the personal data kept out of this public repo (see
+   [Personal data](#personal-data-and-work-files)).
+2. Runs `brew bundle` against the [Brewfile](#homebrew-packages) (installs
+   CLI tools and casks).
+3. Bootstraps oh-my-zsh and clones the [external plugins](#shell---zshrc-oh-my-zsh--external-plugins).
+4. Installs the managed dotfiles (`.zshrc`, `.gitconfig`, `.ssh/config`,
+   VS Code config, the 1Password LaunchAgent, …) and writes the work tools
+   kept as 1Password documents.
+
+Then `mise install` installs the global tools of
+[`~/.config/mise/config.toml`](dot_config/mise/config.toml), `ai-profile`
+included; its first run restores the private part of its configuration
+from 1Password (see [AI agents](#ai-agents--ai-profile)).
 
 To sync later changes from the repo:
 
@@ -43,7 +50,7 @@ To sync later changes from the repo:
 chezmoi update    # pull + apply
 ```
 
-To upgrade chezmoi itself: `brew upgrade chezmoi`.
+To upgrade chezmoi itself: `chezmoi upgrade`.
 
 ## Prerequisites
 
@@ -51,8 +58,9 @@ Homebrew is installed by step 1 of the bootstrap above. The two manual
 sign-ins below can't be automated:
 
 - **1Password 8** with the SSH agent enabled (Settings → Developer → "Use the
-  SSH agent"). Required for the SSH integration; the cask is installed by
-  the Brewfile but you still need to sign in once.
+  SSH agent") and the CLI integration ("Integrate with 1Password CLI").
+  Required for SSH and for the files restored from 1Password documents; the
+  cask is installed by the Brewfile but you still need to sign in once.
 - **Mac App Store** — needed for the `mas` entries in the Brewfile (e.g.
   QuickGif). Open App Store.app and sign in once before running
   `chezmoi apply`; `mas` can't sign you in from the CLI on modern macOS.
@@ -66,7 +74,7 @@ sign-ins below can't be automated:
 script runs `brew bundle` whenever the Brewfile content changes (chezmoi pins
 the script's identity to the Brewfile SHA-256). The `before_` prefix ensures
 packages are installed *before* the rest of the dotfiles are applied — so
-e.g. `fnm` exists by the time `.zshrc` evals it.
+e.g. `mise` exists by the time `.zshrc` evals it.
 
 The Brewfile itself is listed in `.chezmoiignore` so chezmoi treats it as a
 source resource, not a target file (it would otherwise try to install it as
@@ -139,9 +147,10 @@ The Claude Desktop chat app comes from `cask "claude"` in the Brewfile.
 
 On top of that, a small, deliberate slice of `~/.claude/`:
 
-- [`dot_claude/CLAUDE.md`](dot_claude/CLAUDE.md) — global preferences loaded
-  in every Claude Code conversation (language, environment assumptions,
-  workflow rules).
+- [`dot_agents/AGENTS.md.tmpl`](dot_agents/AGENTS.md.tmpl) →
+  `~/.agents/AGENTS.md` — instructions shared by every coding agent
+  (language, environment, workflow rules); each profile's `CLAUDE.md` links
+  to it.
 - `~/.claude/settings.json` — **not managed**, on purpose: Claude Code
   rewrites it on its own and it drifted permanently against the source.
   See [docs/claude-code.md](docs/claude-code.md) for the reasoning and
@@ -151,6 +160,11 @@ On top of that, a small, deliberate slice of `~/.claude/`:
   custom statusline scripts (referenced by `settings.json` in `$HOME`).
 - [`dot_claude/skills/clipboard/`](dot_claude/skills/clipboard) — custom
   Skill that exposes a cross-platform clipboard helper.
+- [`dot_claude/skills/fm-offload/`](dot_claude/skills/fm-offload),
+  [`preview/`](dot_claude/skills/preview) and
+  [`herdr-preview/`](dot_claude/skills/herdr-preview) — own Skills: light
+  text work on Apple's on-device model, and pages or panes that put
+  questions, diffs and documents in front of the user.
 - [`dot_claude/skills/humanizer/`](dot_claude/skills/humanizer) and
   [`dot_claude/skills/session-reflection-analysis/`](dot_claude/skills/session-reflection-analysis)
   — Skills imported verbatim from
@@ -165,23 +179,51 @@ Everything else under `~/.claude/` (`.claude.json`, `history.jsonl`,
 contains either auth tokens, runtime state, or machine-specific data that
 shouldn't follow you across machines.
 
-### Shell productivity — atuin, direnv, mise
+### AI agents — ai-profile
 
-Three CLI tools installed by the Brewfile and wired into `dot_zshrc`:
+Agents run through [ai-profile](https://github.com/ilmeskio/ai-profiles),
+which picks the profile (Claude account, MCP servers, secrets) from the
+current folder:
 
-- **[atuin](https://atuin.sh)** replaces zsh's `Ctrl-R` with a fuzzy-search
-  TUI backed by SQLite. Works fully offline; sync is opt-in. The first-run
-  banner asking you to `atuin register` is for the sync feature only —
-  skip it if you don't need cross-machine history. See
-  [`docs/atuin.md`](docs/atuin.md).
+- [`dot_local/share/ai-profiles/shims/`](dot_local/share/ai-profiles/shims)
+  links `claude` and `codex` to `ai-profile`; the folder comes first in
+  `PATH` (`~/.zprofile` for login shells and GUI apps, last `PATH` change
+  in `dot_zshrc` for interactive ones).
+- [`private_dot_claude-personale/`](private_dot_claude-personale) holds the
+  default profile's links to the shared parts of `~/.claude`; client
+  profiles are created by `ai-profile new` and `ai-profile sync`.
+- [`dot_config/ai-profiles/config.toml`](dot_config/ai-profiles/config.toml)
+  and [`dot_config/private_ai-secrets/config.toml`](dot_config/private_ai-secrets/config.toml)
+  are the public part of the configuration. Client profiles, emails and
+  vault references sit in each tool's `private.toml`, which `ai-profile
+  backup` / `ai-secrets backup` save as 1Password documents and the tools
+  restore when it is missing.
+
+### Personal data and work files
+
+The repo is public. What names clients, people or infrastructure stays out
+of it:
+
+- [`.chezmoi.toml.tmpl`](.chezmoi.toml.tmpl) asks on `chezmoi init` for the
+  personal Google account and work mail used in `~/.agents/AGENTS.md`, and
+  stores them in the local `~/.config/chezmoi/chezmoi.toml`.
+- Work tools with client hosts (`~/.local/bin/vpn`, `~/.local/bin/sshto`)
+  are `create_` templates that read a 1Password document, so they are
+  written only when missing. After changing one:
+  `op document edit <name> --vault Work ~/.local/bin/<name>`.
+
+### Shell productivity — direnv, mise
+
+Two CLI tools installed by the Brewfile and wired into `dot_zshrc`:
+
 - **[direnv](https://direnv.net)** loads project-local environment variables
   from `.envrc`. Run `direnv allow` once per file to authorize. See
   [`docs/direnv.md`](docs/direnv.md).
-- **[mise](https://mise.jdx.dev)** is the modern `asdf` successor for
-  multi-runtime version management. The binary is installed but the shell
-  activation in `dot_zshrc` is **currently commented out** — `fnm` is still
-  the active Node version manager. Flip the switch when you have time to
-  migrate project `.nvmrc` files. See [`docs/mise.md`](docs/mise.md).
+- **[mise](https://mise.jdx.dev)** manages Node, Ruby and the tools a
+  project pins (Go, OpenTofu, Supabase, …): global versions in
+  [`~/.config/mise/config.toml`](dot_config/mise/config.toml), a project's
+  in its `mise.toml` (own repos) or the globally ignored `mise.local.toml`
+  (repos of others). See [`docs/mise.md`](docs/mise.md).
 
 ## chezmoi conventions used here
 
@@ -210,6 +252,17 @@ repo:
   makes `onchange_` notice when the source changes and re-run the script —
   without it the script would never re-execute, since its own source never
   changes.
+
+- **`create_`** writes the file only when it is missing; later changes in
+  home are left alone. Used for the files read from 1Password documents.
+
+- **`symlink_<name>.tmpl`** creates a symlink whose target is the rendered
+  content (the ai-profile shims and profile links).
+
+- **`.chezmoi.toml.tmpl`** generates chezmoi's own config on `chezmoi init`:
+  personal data prompts and `git.autoCommit`, so `chezmoi add`, `edit`,
+  `re-add` and `forget` commit the source. Pushing stays manual
+  (`chezmoi git -- push`).
 
 - **`.chezmoiignore`** lists source files that should *not* be installed into
   `$HOME`. We use it for `README.md` and `Brewfile` (the Brewfile is a
@@ -260,9 +313,8 @@ Deep-dive notes on individual tools and workflows live under
 [`docs/`](docs/) — one markdown file per topic. They're kept out of
 `$HOME` via `.chezmoiignore`, so they stay as repo documentation only:
 
-- [`docs/atuin.md`](docs/atuin.md) — modern shell history
 - [`docs/direnv.md`](docs/direnv.md) — per-directory env vars
-- [`docs/mise.md`](docs/mise.md) — multi-runtime version manager (dormant)
+- [`docs/mise.md`](docs/mise.md) — runtimes and project tools
 - [`docs/upstream-review.md`](docs/upstream-review.md) — periodically
   pulling spunti from
   [harperreed/dotfiles](https://github.com/harperreed/dotfiles)

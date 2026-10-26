@@ -2,7 +2,7 @@
 
 [harperreed/dotfiles](https://github.com/harperreed/dotfiles) is a public,
 actively maintained dotfiles repo from which we've already borrowed the
-`ABOUTME:` convention and chunks of the Ghostty config. The author commits
+`ABOUTME:` convention and two Claude Code skills. The author commits
 multiple times per week, so it's worth checking in occasionally for new
 ideas — without grafting his whole repo in.
 
@@ -94,10 +94,6 @@ Tempting but bad:
 
 - **`ABOUTME:` header convention** — documented in
   [../README.md](../README.md) under *Repo conventions (not chezmoi)*.
-- **Ghostty config** — behavior settings (`confirm-close-surface`,
-  clipboard policy), macOS-style tab keybinds, `Shift+Enter` for literal
-  newline. See [ghostty.md](ghostty.md) and
-  [`../dot_config/ghostty/config`](../dot_config/ghostty/config).
 
 ## Inspiration we considered but skipped
 
@@ -110,8 +106,8 @@ Tempting but bad:
   to our workflow.
 - `mutt`, `khard`, `vdirsyncer`, `beets`, `conky`, `pop-shell`,
   `remmina`, `variety` — niche or Linux-only tooling.
-- Multiple terminal emulator configs (alacritty, kitty, terminator) —
-  we only use Ghostty.
+- Terminal emulator configs (alacritty, kitty, terminator) — this repo
+  keeps none.
 
 ## Further reading
 

@@ -52,9 +52,3 @@ which is one more reason the file doesn't belong in a shared repo.
 
 If the app is ever uninstalled, strip those hooks too: with `timeout: 3`
 on every event, POSTing at a closed port slows down each tool call.
-
-## Atuin hooks: removed
-
-`atuin hook claude-code` used to record every `Bash` command Claude ran
-into the shell history. Removed — see the *AI-agent hooks* section of
-[atuin.md](atuin.md) for the numbers behind that decision.

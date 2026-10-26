@@ -8,9 +8,8 @@ stay in the source repo and never get installed into `$HOME`.
 
 ## Tools
 
-- [atuin.md](atuin.md) — modern shell history (replaces zsh's `Ctrl-R`)
 - [direnv.md](direnv.md) — per-directory env vars from `.envrc`
-- [mise.md](mise.md) — multi-runtime version manager (dormant; replaces `fnm` when ready)
+- [mise.md](mise.md) — runtimes and project tools
 - [claude-code.md](claude-code.md) — why `~/.claude/settings.json` is
   deliberately unmanaged (and what to restore by hand)
 
