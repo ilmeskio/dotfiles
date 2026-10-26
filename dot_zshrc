@@ -31,7 +31,7 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 
 # mise (multi-runtime version manager) — successor to asdf; binary installed by Brewfile.
 # Owns Node: the global version in ~/.config/mise/config.toml, a project's from its
-# .nvmrc or mise.toml. Also the versions a project pins (e.g. OpenTofu in pelion's infra/).
+# .nvmrc or mise.toml. Also the versions a project pins (e.g. OpenTofu in its mise.toml).
 eval "$(mise activate zsh)"
 
 # mysql-client
