@@ -183,15 +183,6 @@ Three CLI tools installed by the Brewfile and wired into `dot_zshrc`:
   the active Node version manager. Flip the switch when you have time to
   migrate project `.nvmrc` files. See [`docs/mise.md`](docs/mise.md).
 
-### Terminal — Ghostty
-
-[Ghostty](https://ghostty.org) is a GPU-accelerated terminal emulator
-installed as a cask. Config is managed at
-[`dot_config/ghostty/config`](dot_config/ghostty/config) — pre-set with
-behavior tweaks (clipboard, no close-confirmation, macOS-style tab
-keybinds), with theme and font left configurable. Reload with
-`Cmd+Shift+,` inside the window. See [`docs/ghostty.md`](docs/ghostty.md).
-
 ## chezmoi conventions used here
 
 Chezmoi encodes behavior in filename prefixes. The ones that show up in this
@@ -272,7 +263,6 @@ Deep-dive notes on individual tools and workflows live under
 - [`docs/atuin.md`](docs/atuin.md) — modern shell history
 - [`docs/direnv.md`](docs/direnv.md) — per-directory env vars
 - [`docs/mise.md`](docs/mise.md) — multi-runtime version manager (dormant)
-- [`docs/ghostty.md`](docs/ghostty.md) — terminal config and customization
 - [`docs/upstream-review.md`](docs/upstream-review.md) — periodically
   pulling spunti from
   [harperreed/dotfiles](https://github.com/harperreed/dotfiles)
