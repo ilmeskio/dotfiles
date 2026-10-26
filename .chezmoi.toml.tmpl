@@ -1,0 +1,6 @@
+{{- /* Personal data kept out of the public repo: chezmoi init asks for it once and stores it in ~/.config/chezmoi/chezmoi.toml. */ -}}
+{{- $google := promptStringOnce . "googleAccount" "Personal Google account (user_google_email outside client folders)" -}}
+{{- $mail := promptStringOnce . "workMail" "Work mail address that has no Google Workspace account" -}}
+[data]
+googleAccount = {{ $google | quote }}
+workMail = {{ $mail | quote }}

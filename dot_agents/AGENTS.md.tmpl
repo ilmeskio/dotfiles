@@ -1,9 +1,15 @@
 # Personal preferences
 
+These instructions apply to every coding agent I use (Claude Code, Codex,
+OpenCode and others). Client-specific instructions live in
+`~/Developer/<client>/AGENTS.md` and add to these.
+
 ## Language
 
-Reply in Italian unless the conversation or the artifact (code, commit
-message, doc) is already in another language.
+Write these instruction files in English. Talk to me, the operator, in Italian
+by default: replies, questions, summaries and explanations. Use another
+language only when the conversation is already in it, or for an artifact that
+already uses it (code, commit messages, docs written in English).
 
 ## Environment
 
@@ -11,24 +17,54 @@ macOS — assume zsh, Homebrew at `/opt/homebrew`, and BSD-flavored CLI tools
 (e.g. `sed -i '' …`, not GNU syntax) unless the project pins a specific
 toolchain.
 
+## Google accounts
+
+The `google-workspace` server is the same in every profile and holds the tokens
+of every Google account; pick the account with `user_google_email`. Outside
+client folders use `{{ .googleAccount }}`; in a client folder use the account
+named by the client's `AGENTS.md`, and the others only as that file allows.
+Never start a Google login for an account whose token is missing: stop and ask.
+
+`{{ .workMail }}` is a Fastmail account for work mail and **has no
+Google Workspace account**: never use it as `user_google_email`, even when it
+appears as my email in the session context.
+
 ## GitHub / SSH
 
-L'autenticazione GitHub avviene via SSH con la chiave gestita da 1Password
-(SSH agent). Ogni operazione che usa la chiave (`git push`, `git fetch`,
-`git clone` da un remote `git@github.com:…`) richiede un'approvazione
-interattiva nel prompt di 1Password: se non la confermo, l'operazione SSH
-fallisce (es. permission denied / timeout). Non è un problema di
-configurazione — basta approvare e riprovare.
+GitHub authentication goes through SSH with the key held by 1Password (SSH
+agent). Every operation that uses the key (`git push`, `git fetch`, `git clone`
+from a `git@github.com:…` remote) needs my interactive approval in the
+1Password prompt; without it the operation fails (permission denied, timeout).
+That is not a configuration problem: wait for me to approve and retry.
 
-Non aggirare mai il flusso SSH per evitare quell'approvazione: non passare a
-remote HTTPS, non riscrivere gli URL dei remote, non usare token o
-`GIT_ASKPASS`. Se un'operazione SSH fallisce per mancata approvazione,
-segnalamelo e attendi che approvi, poi riprova via SSH.
+Never work around the SSH flow to skip that approval: no switching to HTTPS
+remotes, no rewriting remote URLs, no tokens or `GIT_ASKPASS`. If an SSH
+operation fails for lack of approval, tell me and wait, then retry over SSH.
+
+## Secrets
+
+Passwords and keys from 1Password and Bitwarden go through `ai-secrets`. Put
+the reference in an environment variable and run the command through it:
+
+```sh
+KEY='op://<vault>/<item>/<field>' ai-secrets run --reason "<why>" -- <command>
+KEY='bw://<account>/<item>' ai-secrets run --reason "<why>" -- <command>
+```
+
+- I approve every new secret in 1Password, after a notification that shows
+  `--reason`: write a reason that tells me what it is for. A value approved in
+  the last 30 minutes comes back without asking.
+- Never print a secret, write it to a file, put it on a command line or pass it
+  to another tool: it lives only in the environment of the command run by
+  `ai-secrets run`.
+- Do not call `op read` or `bw get` directly, and do not unlock Bitwarden
+  yourself.
+- If you do not know the reference of a secret, ask me for it.
 
 ## Workflow
 
-- Do not append `Co-Authored-By:` trailers (or "Generated with Claude Code"
-  lines) to commit messages — keep them clean.
+- Do not append `Co-Authored-By:` trailers (or "Generated with …" lines) to
+  commit messages — keep them clean.
 - Before rebasing, large refactors, or any multi-file restructuring,
   summarize the branch's goals and the proposed changes and wait for
   confirmation before committing.
@@ -46,8 +82,10 @@ segnalamelo e attendi che approvi, poi riprova via SSH.
 
 My dotfiles are managed by chezmoi: the source of truth is
 `~/.local/share/chezmoi` (remote `git@github.com:ilmeskio/dotfiles.git`),
-not the files in my home directory. `~/.gitconfig`, `~/.zshrc` and
-everything under `~/.claude/` are managed this way.
+not the files in my home directory. Managed files include `~/.gitconfig`,
+`~/.zshrc`, this file (`~/.agents/AGENTS.md`), `~/.claude/` (except
+`settings.json`, which Claude Code rewrites itself), the profile links in
+`~/.claude-<profile>/` and `~/Developer/<client>/AGENTS.md`.
 
 - Never edit a managed file directly in home, and never use `git config
   --global` for a permanent setting — `chezmoi apply` will silently discard
@@ -107,6 +145,6 @@ This Mac's developer toolchain was configured by Set Up Your Mac. One owner per 
 - Python: uv owns Python. `uv python install <version>`, `uv venv` / `.venv`, `uv run`; pin per project with `uv python pin <version>`. Do not use a Homebrew or system `python` for projects.
 - Node / Ruby: mise manages versions. `mise use node@<version>` / `mise use ruby@<version>` per project (writes `mise.toml`); `mise use -g <tool>@<version>` sets the global default.
 - Rust: rustup owns toolchains. `rustup default <toolchain>`, `rustup toolchain install`, `cargo`.
+- Project tools (Go, OpenTofu, Supabase, GoReleaser, New Relic, Cloudflare CLIs and the like) are pinned per project with mise: in the project's `mise.toml` for my own repos, in `mise.local.toml` (globally git-ignored) for repos I do not own. Infrastructure code uses OpenTofu (`opentofu`), not Terraform. A tool needed once, outside any project, runs with `mise exec <tool>@<version> -- <command>`. Homebrew, the global mise config and chezmoi hold only tools I use everywhere.
 
 PATH and tool activation live in `~/.zprofile` (login shells, including this agent's own subshells) and `~/.zshrc` (interactive mise activation). API keys go in `~/.env` (sourced by `~/.zshrc`); never hardcode a key.
-
