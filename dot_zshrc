@@ -12,7 +12,7 @@ plugins=(
   git 1password
   npm yarn
   docker docker-compose
-  gh gcloud terraform brew
+  gh gcloud brew
   zsh-completions
   zsh-autosuggestions
   zsh-syntax-highlighting
@@ -44,10 +44,6 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 # Owns Node: the global version in ~/.config/mise/config.toml, a project's from its
 # .nvmrc or mise.toml. Also the versions a project pins (e.g. OpenTofu in pelion's infra/).
 eval "$(mise activate zsh)"
-
-# Terraform bash-style completion
-autoload -U +X bashcompinit && bashcompinit
-complete -o nospace -C /opt/homebrew/bin/terraform terraform
 
 # mysql-client
 export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"

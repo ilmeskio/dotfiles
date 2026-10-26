@@ -15,7 +15,6 @@ brew "mas"                    # Mac App Store CLI (used by the mas entries below
 
 # === Languages / runtimes ===
 brew "mise"                   # multi-runtime version manager (asdf successor); activated in dot_zshrc, owns Node (global and per project, .nvmrc) and OpenTofu via a project's mise.toml
-brew "oven-sh/bun/bun"
 
 # === Shell productivity ===
 brew "direnv"                 # auto-load .envrc per directory (env vars per project)
@@ -24,8 +23,6 @@ brew "direnv"                 # auto-load .envrc per directory (env vars per pro
 brew "mysql-client"
 
 # === Infra / cloud ===
-brew "cloudflare/cloudflare/cf-terraforming"
-brew "hashicorp/tap/terraform"
 # OpenTofu comes from mise (a project's mise.toml), not brew: a brew copy shadows the pinned version.
 brew "atlassian/acli/acli"
 
