@@ -114,6 +114,22 @@ if [ -n "$week_pct" ] && [ -n "$week_reset" ]; then
   rate_info=$(printf "%s ${week_color}7d:%d%%(%s)\033[0m" "$rate_info" "$week_int" "$week_time")
 fi
 
+# Profile and account come from ai-profile (AI_PROFILE, AI_PROFILE_ACCOUNT),
+# which runs this script; without it, from CLAUDE_CONFIG_DIR. Red when no
+# profile applies: the session runs on the bare ~/.claude.
+profile="${AI_PROFILE:-}"
+account="${AI_PROFILE_ACCOUNT:-}"
+if [ -z "$profile" ] && [ -n "$CLAUDE_CONFIG_DIR" ]; then
+  profile=$(basename "$CLAUDE_CONFIG_DIR" | sed 's/^\.claude-//')
+  account=$(jq -r '.oauthAccount.emailAddress // empty' "$CLAUDE_CONFIG_DIR/.claude.json" 2>/dev/null)
+fi
+if [ -n "$profile" ]; then
+  profile_info=$(printf "\033[1;35m@%s\033[0m" "$profile")
+  [ -n "$account" ] && profile_info=$(printf "%s \033[0;35m%s\033[0m" "$profile_info" "$account")
+else
+  profile_info=$(printf "\033[1;31m@nessun-profilo\033[0m")
+fi
+
 # Assemble output
 printf "\033[1;32m➜\033[0m  \033[0;36m%s\033[0m%s%s%s" "$dir" "$git_info" "$ctx_info" "$rate_info"
-[ -n "$model_info" ] && printf "\n  %s" "$model_info"
+printf "\n  %s%s" "$profile_info" "$model_info"

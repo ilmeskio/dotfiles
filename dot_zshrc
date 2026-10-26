@@ -1,4 +1,4 @@
-# ABOUTME: Zsh interactive shell config — oh-my-zsh + plugins + PATH (brew/pnpm/bun/fnm/uv) + atuin/direnv
+# ABOUTME: Zsh interactive shell config — oh-my-zsh + plugins + PATH (brew/pnpm/bun/uv) + direnv
 # ABOUTME: Sourced for every interactive zsh; expects ~/.oh-my-zsh (bootstrapped by run_onchange_install-omz-plugins)
 
 # Path to oh-my-zsh installation.
@@ -40,13 +40,10 @@ esac
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
-# fnm (Node version manager)
-eval "$(fnm env --use-on-cd --shell zsh)"
-
 # mise (multi-runtime version manager) — successor to asdf; binary installed by Brewfile.
-# When migrating off fnm: remove the fnm eval above, uncomment the line below,
-# and add `node <version>` to a project's .tool-versions or mise.toml.
-# eval "$(mise activate zsh)"
+# Owns Node: the global version in ~/.config/mise/config.toml, a project's from its
+# .nvmrc or mise.toml. Also the versions a project pins (e.g. OpenTofu in pelion's infra/).
+eval "$(mise activate zsh)"
 
 # Terraform bash-style completion
 autoload -U +X bashcompinit && bashcompinit
@@ -67,16 +64,15 @@ export PATH="$HOME/.local/bin:$PATH"
 # Homebrew Ruby gems (e.g. kamal) — system Ruby is too old for these
 export PATH="/opt/homebrew/lib/ruby/gems/4.0.0/bin:$PATH"
 
+# ai-profile shims (claude, codex → ai-profile) come first: the agent starts
+# with the folder's profile. Last PATH change, so nothing goes before them.
+export PATH="$HOME/.local/share/ai-profiles/shims:$PATH"
+
 # uv / Python env (created by `uv` installer)
 [ -f "$HOME/.local/bin/env" ] && . "$HOME/.local/bin/env"
 
 # direnv — auto-load .envrc per directory (run `direnv allow` once per project)
 eval "$(direnv hook zsh)"
-
-# atuin — modern shell history (fuzzy Ctrl-R, SQLite-backed). Works fully offline;
-# the `atuin register` prompt on first run is for optional cloud sync — skip it.
-# Must come after oh-my-zsh because it rebinds the history widgets.
-eval "$(atuin init zsh)"
 
 # chezmoi — warn when a managed file in home has drifted from the source of
 # truth (~/.local/share/chezmoi). Silent when everything is in sync. Fix with
@@ -99,3 +95,4 @@ if type brew >/dev/null 2>&1; then
 fi
 autoload -Uz compinit && compinit
 [ -f "$HOME/.env" ] && set -a && source "$HOME/.env" && set +a
+

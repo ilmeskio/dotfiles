@@ -1,0 +1,61 @@
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.12"
+# dependencies = ["fastmcp==4.1.2"]
+# ///
+"""Ponte stdio verso il server Google Workspace condiviso su 127.0.0.1:8000.
+
+Ogni agente lancia questo comando come server MCP. Se il server condiviso non
+risponde, lo avvia staccato dalla sessione e aspetta che sia pronto; poi
+inoltra la sessione MCP dell'agente al server.
+"""
+import fcntl
+import socket
+import subprocess
+import sys
+import time
+from pathlib import Path
+
+HOST, PORT = "127.0.0.1", 8000
+DIR = Path.home() / ".google_workspace_mcp"
+SERVER = (
+    "source ~/.google_workspace_mcp/server.env && exec uvx workspace-mcp@2.1.1"
+    " --single-user --transport streamable-http"
+    " --tools calendar drive gmail docs --tool-tier core"
+)
+
+
+def listening() -> bool:
+    try:
+        socket.create_connection((HOST, PORT), timeout=0.5).close()
+        return True
+    except OSError:
+        return False
+
+
+def ensure_server() -> None:
+    # Il lock evita che due sessioni avviate insieme lancino due server.
+    with open(DIR / "avvio.lock", "w") as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX)
+        if listening():
+            return
+        log = open(DIR / "server.log", "a")
+        subprocess.Popen(
+            ["/bin/zsh", "-c", SERVER],
+            stdin=subprocess.DEVNULL, stdout=log, stderr=log,
+            start_new_session=True,
+        )
+        for _ in range(240):  # il primo avvio di uvx può scaricare il pacchetto
+            if listening():
+                return
+            time.sleep(0.5)
+        sys.exit(f"server Google non avviato in 120 s, vedi {DIR / 'server.log'}")
+
+
+ensure_server()
+
+from fastmcp.server import create_proxy  # noqa: E402
+
+create_proxy(f"http://{HOST}:{PORT}/mcp", name="google-workspace").run(
+    transport="stdio", show_banner=False
+)

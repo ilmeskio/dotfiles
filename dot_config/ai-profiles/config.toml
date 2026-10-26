@@ -1,0 +1,14 @@
+default = "personale"
+
+# Client profiles, emails and vault references are in the private file,
+# saved as a 1Password document by `ai-profile backup`.
+[private]
+file = "~/.config/ai-profiles/private.toml"
+restore = "op document get ai-profiles --vault Work"
+backup = "op document edit ai-profiles --vault Work -"
+
+[statusline]
+claude = "sh ~/.claude/statusline-command.sh"   # your own; gets AI_PROFILE and AI_PROFILE_ACCOUNT
+
+[mcp.google-workspace]
+command = "~/.local/bin/google-workspace-mcp"

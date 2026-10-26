@@ -1,0 +1,13 @@
+# How ai-secrets reaches each password manager. Values approved once stay in
+# memory for ttl; every new or expired secret asks for approval.
+ttl = "30m"
+
+# Accounts and references are in the private file, saved as a 1Password
+# document by `ai-secrets backup`.
+[private]
+file = "~/.config/ai-secrets/private.toml"
+restore = "op document get ai-secrets --vault Work"
+backup = "op document edit ai-secrets --vault Work -"
+
+[stores.1password]
+read = "isolated"                 # each new secret gets its own 1Password approval
