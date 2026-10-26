@@ -4,3 +4,8 @@
 [data]
 googleAccount = {{ $google | quote }}
 workMail = {{ $mail | quote }}
+
+# Every chezmoi add, edit, re-add and forget commits the source; pushing
+# stays manual (chezmoi git -- push) because the repo is public.
+[git]
+autoCommit = true
