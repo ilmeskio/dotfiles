@@ -9,6 +9,8 @@ credential_command = "gh auth token"
 
 [tools]
 node = "26"
+# pnpm for every Node project; a project pins its own in its mise.toml.
+pnpm = "12"
 ruby = "latest"
 # ai-profile and ai-secrets, from the releases of ilmeskio/ai-profiles.
 "github:ilmeskio/ai-profiles" = "0.1.3"
