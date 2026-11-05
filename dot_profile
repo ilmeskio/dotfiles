@@ -6,9 +6,8 @@ export PATH="$PATH:/Users/ilmeskio/.docker/bin"
 
 export PATH="$PATH:$HOME/.local/share/mise/shims"
 
-# User binaries (claude, agy and others): at the end, so they come after
-# the ai-profile shims.
-export PATH="$PATH:$HOME/.local/bin"
+# User binaries (claude, agy, uv's python and others).
+export PATH="$HOME/.local/bin:$PATH"
 
 # ai-profile shims (claude, codex → ai-profile) come first, for the apps that
 # start agents from a bash login shell (Orca). Last PATH change.
