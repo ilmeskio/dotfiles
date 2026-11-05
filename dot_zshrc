@@ -6,6 +6,10 @@ export ZSH="$HOME/.oh-my-zsh"
 
 ZSH_THEME="robbyrussell"
 
+# Remind about updates instead of asking: the [Y/n] prompt swallows the first character
+# of the command an agent host (Orca) types into a new terminal.
+zstyle ':omz:update' mode reminder
+
 # Plugins. Built-in plugins live in $ZSH/plugins, custom ones in $ZSH_CUSTOM/plugins.
 # zsh-syntax-highlighting must be the LAST plugin loaded.
 plugins=(

@@ -1,0 +1,18 @@
+# The following lines were added by Docker Desktop to add commands to your PATH.
+export PATH="$PATH:/Users/ilmeskio/.docker/bin"
+# End of Docker Desktop section.
+
+# 2026-09-22 Set Up Your Mac — uv PATH
+export PATH="$HOME/.local/bin:$PATH"
+
+# 2026-09-22 Set Up Your Mac — mise (login shims)
+command -v mise >/dev/null 2>&1 && eval "$(mise activate zsh --shims)"
+
+# ai-profile shims (claude, codex → ai-profile) come first, for the apps that
+# start agents from a login shell.
+export PATH="$HOME/.local/share/ai-profiles/shims:$PATH"
+
+# 2026-09-22 Set Up Your Mac — shell environment
+typeset -U path PATH
+
+
