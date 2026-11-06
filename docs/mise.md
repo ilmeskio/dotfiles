@@ -9,8 +9,8 @@ tools a project needs. It is installed by the Brewfile and activated in
 
 - **Global**: [`~/.config/mise/config.toml`](../dot_config/mise/config.toml)
   — Node, Ruby and the tools used everywhere: `ai-profile` and `ai-secrets`
-  from the releases of `ilmeskio/ai-profiles`, the native Bitwarden CLIs
-  (`bw`, `bws`). A private repo downloads with `gh auth token`
+  from the releases of `LunetteOrg/ai-profiles`, the native Bitwarden CLIs
+  (`bw`, `bws`). GitHub downloads use `gh auth token`
   (`settings.github.credential_command`).
 - **A project of mine**: its `mise.toml`, committed with the project.
 - **A repo of others**: `mise.local.toml`, ignored by the global gitignore

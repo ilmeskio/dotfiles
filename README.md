@@ -181,7 +181,7 @@ shouldn't follow you across machines.
 
 ### AI agents — ai-profile
 
-Agents run through [ai-profile](https://github.com/ilmeskio/ai-profiles),
+Agents run through [ai-profile](https://github.com/LunetteOrg/ai-profiles),
 which picks the profile (Claude account, MCP servers, secrets) from the
 current folder:
 
