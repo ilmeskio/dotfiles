@@ -85,3 +85,7 @@ fi
 autoload -Uz compinit && compinit
 [ -f "$HOME/.env" ] && set -a && source "$HOME/.env" && set +a
 
+
+# Scaleway CLI autocomplete: only where mise provides scw (avoids the shim error elsewhere).
+# `scw init` finds the eval line below and does not append its own copy.
+scw version >/dev/null 2>&1 && eval "$(scw autocomplete script shell=zsh)"
