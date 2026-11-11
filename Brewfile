@@ -57,6 +57,7 @@ cask "raindropio"
 cask "whatsapp"
 cask "handy"
 cask "logi-options+"
+cask "karabiner-elements"     # layout per tastiera: ProtoArc XK01 → Italiano, tastiera del Mac → U.S.
 cask "nordvpn"
 cask "openvpn-connect"
 
