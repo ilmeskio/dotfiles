@@ -21,7 +21,7 @@ DIR = Path.home() / ".google_workspace_mcp"
 SERVER = (
     "source ~/.google_workspace_mcp/server.env && exec uvx workspace-mcp@2.1.1"
     " --single-user --transport streamable-http"
-    " --tools calendar drive gmail docs --tool-tier core"
+    " --tools calendar drive gmail docs --tool-tier complete"
 )
 
 
