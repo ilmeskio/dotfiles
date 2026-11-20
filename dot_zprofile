@@ -12,6 +12,10 @@ command -v mise >/dev/null 2>&1 && eval "$(mise activate zsh --shims)"
 # start agents from a login shell.
 export PATH="$HOME/.local/share/ai-profiles/shims:$PATH"
 
+# ai-secrets tool shims (scw → ai-secrets) before the real tools: the CLI gets
+# its key from ai-secrets, in its own environment only.
+export PATH="$HOME/.local/share/ai-profiles/tool-shims:$PATH"
+
 # 2026-09-22 Set Up Your Mac — shell environment
 typeset -U path PATH
 

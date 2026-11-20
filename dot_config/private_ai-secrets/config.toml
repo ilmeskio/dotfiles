@@ -6,8 +6,8 @@ ttl = "30m"
 # document by `ai-secrets backup`.
 [private]
 file = "~/.config/ai-secrets/private.toml"
-restore = "op document get ai-secrets --vault Work"
-backup = "op document edit ai-secrets --vault Work -"
+restore = "op document get ai-secrets --account my.1password.com --vault Work"
+backup = "op document edit ai-secrets --account my.1password.com --vault Work -"
 
 [stores.1password]
 read = "isolated"                 # each new secret gets its own 1Password approval
